@@ -1,0 +1,10 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src\WebApi\WebApi.csproj" Type="C#" />
+  </Folder>
+  <Folder Name="/test/">
+  </Folder>
+  <Folder Name="/_/">
+    <File Path="global.json" />
+  </Folder>
+</Solution>

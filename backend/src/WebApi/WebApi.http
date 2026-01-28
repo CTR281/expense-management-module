@@ -1,0 +1,320 @@
+@WebApi_HostAddress = http://localhost:5195
+
+###############################################################################
+# USERS ENDPOINTS
+###############################################################################
+
+### Get all users
+GET {{WebApi_HostAddress}}/users
+Accept: application/json
+
+> {%
+    client.test("Request executed successfully", function() {
+        client.assert(response.status === 200, "Response status is not 200");
+    });
+
+    client.test("Response is a list", function() {
+        client.assert(Array.isArray(response.body), "Response should be an array");
+        client.assert(response.body.length === 5, "Should have 5 users");
+    });
+
+    client.test("User structure is valid", function() {
+        const user = response.body[0];
+        client.assert(user.id !== undefined, "User should have an ID");
+        client.assert(user.name !== undefined, "User should have a name");
+    });
+
+    // Store first user ID for later tests
+    client.global.set("userId", response.body[0].id);
+%}
+
+###############################################################################
+# CATEGORIES ENDPOINTS
+###############################################################################
+
+### Get all categories (default pagination)
+GET {{WebApi_HostAddress}}/categories
+Accept: application/json
+
+> {%
+    client.test("Request executed successfully", function() {
+        client.assert(response.status === 200, "Response status is not 200");
+    });
+
+    client.test("Response has pagination metadata", function() {
+        client.assert(response.body.items !== undefined, "Should have items");
+        client.assert(response.body.totalCount !== undefined, "Should have totalCount");
+        client.assert(response.body.page !== undefined, "Should have page");
+        client.assert(response.body.pageSize !== undefined, "Should have pageSize");
+        client.assert(response.body.totalPages !== undefined, "Should have totalPages");
+    });
+
+    client.test("Categories data is valid", function() {
+        client.assert(response.body.totalCount === 5, "Should have 5 categories");
+        client.assert(response.body.items.length === 5, "Should return 5 items");
+    });
+
+    // Store first category ID for later tests
+    client.global.set("categoryId", response.body.items[0].id);
+%}
+
+### Get categories with pagination
+GET {{WebApi_HostAddress}}/categories?page=1&pageSize=2
+Accept: application/json
+
+> {%
+    client.test("Pagination works correctly", function() {
+        client.assert(response.status === 200, "Response status is not 200");
+        client.assert(response.body.page === 1, "Page should be 1");
+        client.assert(response.body.pageSize === 2, "PageSize should be 2");
+        client.assert(response.body.items.length === 2, "Should return 2 items");
+        client.assert(response.body.totalPages === 3, "Should have 3 total pages");
+    });
+%}
+
+### Get categories with name filter
+GET {{WebApi_HostAddress}}/categories?name=Travel
+Accept: application/json
+
+> {%
+    client.test("Name filter works correctly", function() {
+        client.assert(response.status === 200, "Response status is not 200");
+        client.assert(response.body.items.length === 1, "Should return 1 item");
+        client.assert(response.body.items[0].name === "Travel", "Category name should be Travel");
+    });
+%}
+
+###############################################################################
+# EXPENSES ENDPOINTS
+###############################################################################
+
+### Check expense uniqueness (should be true - no expense exists yet)
+GET {{WebApi_HostAddress}}/expenses/unique?userId={{userId}}&date=2025-01-15
+Accept: application/json
+
+> {%
+    client.test("Uniqueness check returns true", function() {
+        client.assert(response.status === 200, "Response status is not 200");
+        client.assert(response.body === true, "Should be unique (true)");
+    });
+%}
+
+### Create a new expense
+POST {{WebApi_HostAddress}}/expenses
+Content-Type: application/json
+
+{
+  "date": "2025-01-15",
+  "ownerId": "{{userId}}",
+  "amount": 150.50,
+  "currencyCode": "USD",
+  "categoryId": "{{categoryId}}"
+}
+
+> {%
+    client.test("Expense created successfully", function() {
+        client.assert(response.status === 201, "Response status is not 201");
+        client.assert(response.body !== undefined, "Should return expense ID");
+    });
+
+    // Store expense ID for later tests
+    client.global.set("expenseId", response.body);
+%}
+
+### Check expense uniqueness again (should be false now)
+GET {{WebApi_HostAddress}}/expenses/unique?userId={{userId}}&date=2025-01-15
+Accept: application/json
+
+> {%
+    client.test("Uniqueness check returns false", function() {
+        client.assert(response.status === 200, "Response status is not 200");
+        client.assert(response.body === false, "Should NOT be unique (false)");
+    });
+%}
+
+### Try to create duplicate expense (should fail)
+POST {{WebApi_HostAddress}}/expenses
+Content-Type: application/json
+
+{
+  "date": "2025-01-15",
+  "ownerId": "{{userId}}",
+  "amount": 200.00,
+  "currencyCode": "EUR",
+  "categoryId": "{{categoryId}}"
+}
+
+> {%
+    client.test("Duplicate expense creation fails", function() {
+        client.assert(response.status === 400, "Response status should be 400");
+    });
+%}
+
+### Get expense by ID
+GET {{WebApi_HostAddress}}/expenses/{{expenseId}}
+Accept: application/json
+
+> {%
+    client.test("Expense retrieved successfully", function() {
+        client.assert(response.status === 200, "Response status is not 200");
+        client.assert(response.body.id === client.global.get("expenseId"), "IDs should match");
+        client.assert(response.body.amount === 150.50, "Amount should be 150.50");
+        client.assert(response.body.currencyCode === "USD", "Currency should be USD");
+        client.assert(response.body.isSubmitted === false, "Should not be submitted yet");
+    });
+%}
+
+### Get non-existent expense (should return 404)
+GET {{WebApi_HostAddress}}/expenses/00000000-0000-0000-0000-000000000000
+Accept: application/json
+
+> {%
+    client.test("Non-existent expense returns 404", function() {
+        client.assert(response.status === 404, "Response status should be 404");
+    });
+%}
+
+### Get all expenses (default pagination)
+GET {{WebApi_HostAddress}}/expenses
+Accept: application/json
+
+> {%
+    client.test("Expenses list retrieved successfully", function() {
+        client.assert(response.status === 200, "Response status is not 200");
+        client.assert(response.body.items !== undefined, "Should have items");
+        client.assert(response.body.totalCount >= 1, "Should have at least 1 expense");
+    });
+%}
+
+### Get expenses with filters
+GET {{WebApi_HostAddress}}/expenses?userId={{userId}}&page=1&pageSize=10
+Accept: application/json
+
+> {%
+    client.test("Filtered expenses retrieved successfully", function() {
+        client.assert(response.status === 200, "Response status is not 200");
+        client.assert(response.body.items.length >= 1, "Should have at least 1 expense");
+    });
+%}
+
+### Get expenses with date range filter
+GET {{WebApi_HostAddress}}/expenses?fromDate=2025-01-01&toDate=2025-12-31
+Accept: application/json
+
+> {%
+    client.test("Date range filter works", function() {
+        client.assert(response.status === 200, "Response status is not 200");
+    });
+%}
+
+### Edit expense
+PUT {{WebApi_HostAddress}}/expenses/{{expenseId}}
+Content-Type: application/json
+
+{
+  "amount": 175.75,
+  "currencyCode": "EUR",
+  "categoryId": "{{categoryId}}"
+}
+
+> {%
+    client.test("Expense updated successfully", function() {
+        client.assert(response.status === 204, "Response status should be 204");
+    });
+%}
+
+### Verify expense was updated
+GET {{WebApi_HostAddress}}/expenses/{{expenseId}}
+Accept: application/json
+
+> {%
+    client.test("Updated expense has new values", function() {
+        client.assert(response.status === 200, "Response status is not 200");
+        client.assert(response.body.amount === 175.75, "Amount should be updated to 175.75");
+        client.assert(response.body.currencyCode === "EUR", "Currency should be updated to EUR");
+    });
+%}
+
+### Submit expense
+POST {{WebApi_HostAddress}}/expenses/{{expenseId}}/submit
+
+> {%
+    client.test("Expense submitted successfully", function() {
+        client.assert(response.status === 204, "Response status should be 204");
+    });
+%}
+
+### Verify expense is submitted
+GET {{WebApi_HostAddress}}/expenses/{{expenseId}}
+Accept: application/json
+
+> {%
+    client.test("Expense is marked as submitted", function() {
+        client.assert(response.status === 200, "Response status is not 200");
+        client.assert(response.body.isSubmitted === true, "Should be submitted");
+    });
+%}
+
+### Try to edit submitted expense (should fail)
+PUT {{WebApi_HostAddress}}/expenses/{{expenseId}}
+Content-Type: application/json
+
+{
+  "amount": 200.00,
+  "currencyCode": "USD",
+  "categoryId": "{{categoryId}}"
+}
+
+> {%
+    client.test("Cannot edit submitted expense", function() {
+        client.assert(response.status === 400, "Response status should be 400");
+    });
+%}
+
+### Try to delete submitted expense (should fail)
+DELETE {{WebApi_HostAddress}}/expenses/{{expenseId}}
+
+> {%
+    client.test("Cannot delete submitted expense", function() {
+        client.assert(response.status === 400, "Response status should be 400");
+    });
+%}
+
+### Create another expense for deletion test
+POST {{WebApi_HostAddress}}/expenses
+Content-Type: application/json
+
+{
+  "date": "2025-01-20",
+  "ownerId": "{{userId}}",
+  "amount": 50.00,
+  "currencyCode": "USD",
+  "categoryId": "{{categoryId}}"
+}
+
+> {%
+    client.test("Second expense created", function() {
+        client.assert(response.status === 201, "Response status is not 201");
+    });
+
+    client.global.set("expenseIdToDelete", response.body);
+%}
+
+### Delete non-submitted expense (should succeed)
+DELETE {{WebApi_HostAddress}}/expenses/{{expenseIdToDelete}}
+
+> {%
+    client.test("Non-submitted expense deleted successfully", function() {
+        client.assert(response.status === 204, "Response status should be 204");
+    });
+%}
+
+### Verify expense was deleted
+GET {{WebApi_HostAddress}}/expenses/{{expenseIdToDelete}}
+Accept: application/json
+
+> {%
+    client.test("Deleted expense not found", function() {
+        client.assert(response.status === 404, "Response status should be 404");
+    });
+%}
