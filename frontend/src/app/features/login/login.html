@@ -1,0 +1,23 @@
+<div class="min-h-screen flex items-center justify-center bg-gray-100">
+    <div class="grid w-full max-w-2xl grid-cols-1 gap-4 p-4 sm:grid-cols-2">
+        @for (user of users$ | async; track user.id) {
+            <button
+                    type="button"
+                    (click)="loginService.login(user)"
+                    class="
+          group rounded-xl bg-white p-6 text-left
+          shadow-sm transition
+          hover:-translate-y-0.5 hover:shadow-md
+          focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500
+        "
+            >
+                <div class="text-base font-semibold text-gray-900">
+                    {{ user.id }}
+                </div>
+                <div class="mt-1 text-sm text-gray-500">
+                    {{ user.fullName }}
+                </div>
+            </button>
+        }
+    </div>
+</div>
