@@ -1,3 +1,59 @@
 /* You can add global styles to this file, and also import other style files */
 
 @import "tailwindcss";
+
+@theme {
+    --color-app-primary: oklch(58.5% 0.233 277.117);      /* indigo-500 */
+    --color-app-secondary: oklch(62.3% 0.214 259.815);    /* blue-500 */
+
+    --color-app-bg: oklch(96.7% 0.003 264.542);
+
+    --color-font-primary: oklch(21% 0.034 264.665);     /* gray-900 */
+    --color-font-secondary: oklch(44.6% 0.03 256.802);  /* gray-600 */
+    --color-font-accent: oklch(43.8% 0.218 303.724);   /* purple-500 */
+
+    --color-success: oklch(69.6% 0.17 162.48);  /* emerald-500 */
+    --color-danger: oklch(64.5% 0.246 16.439);  /* rose-500 */
+}
+
+@layer components {
+    .btn-primary {
+        @apply
+            w-full
+            rounded-lg
+            border
+            border-[var(--color-app-primary)]
+            bg-[var(--color-app-primary)]
+            px-4
+            py-2
+            text-sm
+            font-medium
+            text-white
+            transition
+            cursor-pointer
+            hover:bg-[var(--color-app-secondary)]
+            hover:border-[var(--color-app-secondary)]
+            focus:outline-none
+            focus-visible:ring-2
+            focus-visible:ring-[var(--color-app-primary)];
+    }
+    .btn-secondary {
+        @apply
+            w-full
+            rounded-lg
+            border
+            border-gray-200
+            px-4
+            py-2
+            text-sm
+            font-medium
+            text-[var(--color-app-primary)]
+            transition
+            cursor-pointer
+            hover:border-[var(--color-app-secondary)]
+            focus:outline-none
+            focus-visible:ring-2
+            focus-visible:ring-[var(--color-font-secondary)];
+    }
+}
+
