@@ -13,5 +13,5 @@ import { AsyncPipe } from "@angular/common";
 export class Login {
   protected readonly loginService = inject(LoginService);
 
-  protected users$: Observable<User[]> = this.loginService.loadUsers();
+  protected readonly users$: Observable<User[]> = this.loginService.loadUsers();
 }

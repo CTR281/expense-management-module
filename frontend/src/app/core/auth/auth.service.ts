@@ -1,5 +1,6 @@
-import { computed, Injectable, signal } from "@angular/core";
+import { computed, inject, Injectable, signal } from "@angular/core";
 import { User } from "../../domain/user/user.model";
+import { Router } from "@angular/router";
 
 @Injectable({
   providedIn: "root",
@@ -7,19 +8,17 @@ import { User } from "../../domain/user/user.model";
 export class AuthService {
   // TODO: leverage caching
   private readonly _user = signal<User | null>(null);
+  private readonly router = inject(Router);
   readonly user = this._user.asReadonly();
 
   readonly isLoggedIn = computed(() => this.user() !== null);
 
-  private setUser(user: User | null) {
+  login(user: User): void {
     this._user.set(user);
   }
 
-  login(user: User): void {
-    this.setUser(user);
-  }
-
   logout(): void {
-    this.setUser(null);
+    this._user.set(null);
+    this.router.navigate(["/"]);
   }
 }

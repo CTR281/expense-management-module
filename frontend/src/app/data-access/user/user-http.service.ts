@@ -9,6 +9,9 @@ import { UserDto } from "./user.dto";
 export class UserHttpService {
   private readonly httpClient = inject(HttpClient);
 
+  /**
+   * Retrieve all users from API
+   */
   getUsers(): Observable<UserDto[]> {
     return this.httpClient.get<UserDto[]>("/users");
   }

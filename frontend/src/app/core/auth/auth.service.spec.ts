@@ -1,15 +1,10 @@
 import { TestBed } from "@angular/core/testing";
 
 import { AuthService } from "./auth.service";
-import { User } from "../../domain/user/user.model";
+import { mockUser } from "../../../testing/user.mock";
 
 describe("AuthService", () => {
   let service: AuthService;
-
-  const mockUser: User = {
-    id: "1",
-    fullName: "Bertrand",
-  };
 
   beforeEach(() => {
     TestBed.configureTestingModule({});

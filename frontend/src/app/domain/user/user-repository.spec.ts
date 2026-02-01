@@ -2,10 +2,10 @@ import { TestBed } from "@angular/core/testing";
 
 import { UserRepository } from "./user-repository";
 import { UserHttpService } from "../../data-access/user/user-http.service";
-import { UserDto } from "../../data-access/user/user.dto";
-import { User } from "./user.model";
 import { firstValueFrom, of } from "rxjs";
 import { provideHttpClient } from "@angular/common/http";
+import { mockUsers } from "../../../testing/user.mock";
+import { mockUsersDto } from "../../../testing/user-dto.mock";
 
 describe("UserRepository", () => {
   let service: UserRepository;
@@ -22,21 +22,7 @@ describe("UserRepository", () => {
   });
 
   it("should get users and map them", async () => {
-    const mockHttpUsers: UserDto[] = [
-      {
-        id: "1",
-        name: "Bertrand",
-      },
-      { id: "2", name: "Billy" },
-    ];
-    const mockUsers: User[] = [
-      {
-        id: "1",
-        fullName: "Bertrand",
-      },
-      { id: "2", fullName: "Billy" },
-    ];
-    vi.spyOn(httpService, "getUsers").mockReturnValue(of(mockHttpUsers));
+    vi.spyOn(httpService, "getUsers").mockReturnValue(of(mockUsersDto));
 
     const result = await firstValueFrom(service.getUsers());
 
