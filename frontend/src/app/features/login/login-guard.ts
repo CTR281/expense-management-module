@@ -7,6 +7,6 @@ import { inject } from "@angular/core";
  */
 export const loginGuard: CanActivateFn = () => {
   return inject(AuthService).isLoggedIn()
-    ? inject(Router).createUrlTree(["home"])
+    ? inject(Router).createUrlTree([""])
     : true;
 };

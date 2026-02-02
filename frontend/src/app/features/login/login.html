@@ -6,7 +6,7 @@
         </div>
     }@else {
         <div class="w-full max-w-2xl p-4">
-            <h1 class="mb-6 text-center text-xl font-medium text-gray-700">Select the user to log as:</h1>
+            <h1 class="mb-6 text-center text-xl font-medium text-gray-700">Pick the user to log as:</h1>
         </div>
         <!-- User list -->
         <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
@@ -16,12 +16,12 @@
                         (click)="loginService.login(user)"
                         class="cursor-pointer group rounded-xl bg-white p-6 text-left shadow-sm transition hover:-translate-y-0.5 hover:shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500"
                 >
-                    <div class="text-base font-semibold text-gray-900 group-hover:text-indigo-500">
+                    <p class="text-base font-semibold text-gray-900 group-hover:text-indigo-500">
                         {{ user.fullName }}
-                    </div>
-                    <div class="mt-1 text-sm text-gray-500">
+                    </p>
+                    <p class="mt-1 text-sm text-gray-500">
                         {{ user.id }}
-                    </div>
+                    </p>
                 </button>
             }
         </div>

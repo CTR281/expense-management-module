@@ -2,7 +2,7 @@ import { TestBed } from "@angular/core/testing";
 
 import { LoginService } from "./login-service";
 import { AuthService } from "../../core/auth/auth.service";
-import { UserRepository } from "../user/domain/user-repository";
+import { UserService } from "../user/domain/user.service";
 import { mockUser, mockUsers } from "../../../testing/user.mock";
 import { EMPTY, finalize, of, throwError } from "rxjs";
 import { NotificationService } from "../../core/notification/notification-service";
@@ -12,7 +12,7 @@ import { Router } from "@angular/router";
 describe("LoginService", () => {
   let service: LoginService;
   let authService: AuthService;
-  let userRepository: UserRepository;
+  let userService: UserService;
   let notificationService: NotificationService;
   let router: Router;
 
@@ -22,7 +22,7 @@ describe("LoginService", () => {
     });
     service = TestBed.inject(LoginService);
     authService = TestBed.inject(AuthService);
-    userRepository = TestBed.inject(UserRepository);
+    userService = TestBed.inject(UserService);
     notificationService = TestBed.inject(NotificationService);
     router = TestBed.inject(Router);
   });
@@ -32,7 +32,7 @@ describe("LoginService", () => {
   });
 
   it("should load users", () => {
-    vi.spyOn(userRepository, "getUsers").mockReturnValue(of(mockUsers));
+    vi.spyOn(userService, "getUsers").mockReturnValue(of(mockUsers));
 
     const action = service.loadUsers();
     expect(service.loading()).toBe(true);
@@ -46,7 +46,7 @@ describe("LoginService", () => {
 
   it("should notify when users could not be loaded", () => {
     const notificationSpy = vi.spyOn(notificationService, "error");
-    vi.spyOn(userRepository, "getUsers").mockReturnValue(
+    vi.spyOn(userService, "getUsers").mockReturnValue(
       throwError(() => new Error())
     );
 
@@ -62,6 +62,6 @@ describe("LoginService", () => {
     service.login(mockUser);
 
     expect(authSpy).toHaveBeenCalledWith(mockUser);
-    expect(routerSpy).toHaveBeenCalledWith(["/home"]);
+    expect(routerSpy).toHaveBeenCalledWith(["/"]);
   });
 });

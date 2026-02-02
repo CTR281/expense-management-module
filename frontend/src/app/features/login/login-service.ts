@@ -1,5 +1,5 @@
 import { inject, Injectable, signal } from "@angular/core";
-import { UserRepository } from "../user/domain/user-repository";
+import { UserService } from "../user/domain/user.service";
 import { User } from "../user/domain/user.model";
 import { catchError, EMPTY, finalize, Observable } from "rxjs";
 import { AuthService } from "../../core/auth/auth.service";
@@ -8,7 +8,7 @@ import { NotificationService } from "../../core/notification/notification-servic
 
 @Injectable()
 export class LoginService {
-  private readonly userRepository = inject(UserRepository);
+  private readonly userService = inject(UserService);
   private readonly authService = inject(AuthService);
   private readonly router = inject(Router);
   private readonly notificationService = inject(NotificationService);
@@ -22,9 +22,8 @@ export class LoginService {
    */
   loadUsers(): Observable<User[]> {
     this.loading.set(true);
-    return this.userRepository.getUsers().pipe(
-      catchError((err) => {
-        //console.error(err); // TODO: push to dedicated logging service
+    return this.userService.getUsers().pipe(
+      catchError(() => {
         this.notificationService.error("Could not load users.");
         return EMPTY;
       }),
@@ -38,6 +37,6 @@ export class LoginService {
    */
   login(user: User): void {
     this.authService.login(user);
-    this.router.navigate(["/home"]);
+    this.router.navigate(["/"]);
   }
 }

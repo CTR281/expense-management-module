@@ -34,7 +34,7 @@ describe("loginGuard", () => {
     const result = executeGuard();
 
     expect(result).toBeInstanceOf(UrlTree);
-    expect(router.serializeUrl(result as UrlTree)).toEqual("/home");
+    expect(router.serializeUrl(result as UrlTree)).toEqual("/");
   });
 
   it("should not redirect users that are not logged in", () => {
