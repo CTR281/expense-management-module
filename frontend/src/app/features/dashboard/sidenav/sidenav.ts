@@ -1,19 +1,31 @@
 import { Component, inject, OnDestroy, OnInit, signal } from "@angular/core";
 import { AuthService } from "../../../core/auth/auth.service";
+import { RouterLink, RouterLinkActive } from "@angular/router";
+import { IconBurgerMenu } from "../../../shared/ui/icons/icon-burger-menu";
+import { IconExpenses } from "../../../shared/ui/icons/icon-expenses";
+import { IconLogout } from "../../../shared/ui/icons/icon-logout";
+import { PageTitleService } from "../../../core/page-title.service";
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
   selector: "nav[app-sidenav]", // this allows the browser to recognize the component as a native nav
-  imports: [],
+  imports: [
+    RouterLink,
+    RouterLinkActive,
+    IconBurgerMenu,
+    IconExpenses,
+    IconLogout,
+  ],
   templateUrl: "./sidenav.html",
   styleUrl: "./sidenav.css",
   host: {
     class: "flex flex-col bg-white p-6 shadow-sm transition-all duration-300",
     "[class.w-24]": "isCollapsed()",
-    "[class.w-64]": "!isCollapsed()",
+    "[class.w-72]": "!isCollapsed()",
   },
 })
 export class Sidenav implements OnInit, OnDestroy {
+  protected readonly PAGE_TITLE = inject(PageTitleService).pageTitle;
   protected readonly authService = inject(AuthService);
   protected readonly isCollapsed = signal<boolean>(false);
 
