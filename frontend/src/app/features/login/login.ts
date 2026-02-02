@@ -1,7 +1,7 @@
 import { Component, inject } from "@angular/core";
 import { LoginService } from "./login-service";
 import { Observable } from "rxjs";
-import { User } from "../../domain/user/user.model";
+import { User } from "../user/domain/user.model";
 import { AsyncPipe } from "@angular/common";
 
 @Component({

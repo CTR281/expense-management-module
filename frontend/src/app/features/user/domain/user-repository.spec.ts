@@ -1,11 +1,11 @@
 import { TestBed } from "@angular/core/testing";
 
 import { UserRepository } from "./user-repository";
-import { UserHttpService } from "../../data-access/user/user-http.service";
+import { UserHttpService } from "../data-access/user-http.service";
 import { firstValueFrom, of } from "rxjs";
 import { provideHttpClient } from "@angular/common/http";
-import { mockUsers } from "../../../testing/user.mock";
-import { mockUsersDto } from "../../../testing/user-dto.mock";
+import { mockUsers } from "../../../../testing/user.mock";
+import { mockUsersDto } from "../../../../testing/user-dto.mock";
 
 describe("UserRepository", () => {
   let service: UserRepository;

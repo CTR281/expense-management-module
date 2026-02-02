@@ -1,6 +1,6 @@
 import { inject, Injectable, signal } from "@angular/core";
-import { UserRepository } from "../../domain/user/user-repository";
-import { User } from "../../domain/user/user.model";
+import { UserRepository } from "../user/domain/user-repository";
+import { User } from "../user/domain/user.model";
 import { catchError, EMPTY, finalize, Observable } from "rxjs";
 import { AuthService } from "../../core/auth/auth.service";
 import { Router } from "@angular/router";

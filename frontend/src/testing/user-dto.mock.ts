@@ -1,4 +1,4 @@
-﻿import { UserDto } from "../app/data-access/user/user.dto";
+﻿import { UserDto } from "../app/features/user/data-access/user.dto";
 
 export const mockUsersDto: UserDto[] = [
   {

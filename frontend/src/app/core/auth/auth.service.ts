@@ -1,5 +1,5 @@
 import { computed, inject, Injectable, signal } from "@angular/core";
-import { User } from "../../domain/user/user.model";
+import { User } from "../../features/user/domain/user.model";
 import { Router } from "@angular/router";
 
 @Injectable({

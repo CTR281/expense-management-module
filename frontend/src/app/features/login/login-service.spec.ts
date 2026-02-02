@@ -2,10 +2,9 @@ import { TestBed } from "@angular/core/testing";
 
 import { LoginService } from "./login-service";
 import { AuthService } from "../../core/auth/auth.service";
-import { User } from "../../domain/user/user.model";
-import { UserRepository } from "../../domain/user/user-repository";
+import { UserRepository } from "../user/domain/user-repository";
 import { mockUser, mockUsers } from "../../../testing/user.mock";
-import { EMPTY, of, throwError } from "rxjs";
+import { EMPTY, finalize, of, throwError } from "rxjs";
 import { NotificationService } from "../../core/notification/notification-service";
 import { provideHttpClient } from "@angular/common/http";
 import { Router } from "@angular/router";
@@ -38,10 +37,11 @@ describe("LoginService", () => {
     const action = service.loadUsers();
     expect(service.loading()).toBe(true);
 
-    action.subscribe((result) => {
-      expect(result).toEqual(mockUsers);
-      expect(service.loading()).toBe(false);
-    });
+    action
+      .pipe(finalize(() => expect(service.loading()).toBe(false)))
+      .subscribe((result) => {
+        expect(result).toEqual(mockUsers);
+      });
   });
 
   it("should notify when users could not be loaded", () => {

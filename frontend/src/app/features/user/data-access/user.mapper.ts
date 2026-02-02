@@ -1,5 +1,5 @@
 ﻿import { UserDto } from "./user.dto";
-import { User } from "../../domain/user/user.model";
+import { User } from "../domain/user.model";
 
 export const toUser = (user: UserDto): User => ({
   id: user.id,

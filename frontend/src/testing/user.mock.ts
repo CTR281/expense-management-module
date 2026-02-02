@@ -1,4 +1,4 @@
-﻿import { User } from "../app/domain/user/user.model";
+﻿import { User } from "../app/features/user/domain/user.model";
 
 export const mockUser: User = {
   id: "1",
