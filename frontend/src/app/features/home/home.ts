@@ -1,11 +1,12 @@
 import { Component } from "@angular/core";
-import { RouterOutlet } from "@angular/router";
-import { Sidenav } from "./sidenav/sidenav";
 
 @Component({
   selector: "app-home",
-  imports: [RouterOutlet, Sidenav],
+  imports: [],
   templateUrl: "./home.html",
   styleUrl: "./home.css",
+  host: {
+    class: "min-h-full flex justify-center items-center",
+  },
 })
 export class Home {}

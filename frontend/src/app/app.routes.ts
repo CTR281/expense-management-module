@@ -7,8 +7,8 @@ export const appRoutes: Route[] = [
     loadChildren: () => import("./features/login/login.routes"),
   },
   {
-    path: "home",
-    loadChildren: () => import("./features/home/home.routes"),
+    path: "",
+    loadChildren: () => import("./features/dashboard/dashboard.routes"),
     canMatch: [authGuard],
   },
   {
