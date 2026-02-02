@@ -37,6 +37,7 @@
             focus-visible:ring-2
             focus-visible:ring-[var(--color-app-primary)];
     }
+
     .btn-secondary {
         @apply
             w-full
@@ -54,6 +55,38 @@
             focus:outline-none
             focus-visible:ring-2
             focus-visible:ring-[var(--color-font-secondary)];
+    }
+
+    .form-control {
+        @apply
+            rounded-md
+            border
+            border-gray-300
+            px-3
+            py-2
+            text-sm
+            focus:outline-none
+            focus-visible:ring-2
+            focus-visible:ring-indigo-500;
+    }
+
+    .form-control-label {
+        @apply
+            text-sm
+            font-medium
+            text-gray-700
+    }
+
+    .icon-button {
+        @apply
+            p-2
+            rounded-md
+            hover:bg-gray-200
+            cursor-pointer
+            focus-visible:bg-gray-100
+            focus-visible:ring-2
+            focus:outline-none
+            transition
     }
 }
 
