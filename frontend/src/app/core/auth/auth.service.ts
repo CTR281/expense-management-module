@@ -7,8 +7,8 @@ import { Subject } from "rxjs";
   providedIn: "root",
 })
 export class AuthService {
-  // todo: localStorage ?
-  private readonly _user = signal<User | null>(null);
+  private static readonly STORAGE_KEY = "auth_user";
+  private readonly _user = signal<User | null>(this.loadFromStorage());
   private readonly _loggedOut = new Subject<void>();
   private readonly router = inject(Router);
 
@@ -19,11 +19,25 @@ export class AuthService {
 
   login(user: User): void {
     this._user.set(user);
+    localStorage.setItem(AuthService.STORAGE_KEY, JSON.stringify(user));
   }
 
   logout(): void {
     this._user.set(null);
+    localStorage.removeItem(AuthService.STORAGE_KEY);
     this._loggedOut.next();
     this.router.navigate(["/login"]);
+  }
+
+  private loadFromStorage(): User {
+    const data = localStorage.getItem(AuthService.STORAGE_KEY);
+    if (!data) return null;
+
+    try {
+      return JSON.parse(data) as User;
+    } catch {
+      localStorage.removeItem(AuthService.STORAGE_KEY);
+      return null;
+    }
   }
 }
