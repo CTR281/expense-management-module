@@ -23,6 +23,7 @@ export class AuthService {
 
   logout(): void {
     this._user.set(null);
+    this._loggedOut.next();
     this.router.navigate(["/login"]);
   }
 }

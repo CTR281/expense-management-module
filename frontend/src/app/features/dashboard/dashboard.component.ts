@@ -1,14 +1,14 @@
-import { Component, inject } from "@angular/core";
+import { Component } from "@angular/core";
 import { RouterOutlet } from "@angular/router";
 import { Sidenav } from "./sidenav/sidenav";
-import { ResolverLoadingService } from "../../core/http/resolver-loading.service";
 
 @Component({
   selector: "app-dashboard",
   imports: [RouterOutlet, Sidenav],
   templateUrl: "./dashboard.component.html",
   styleUrl: "./dashboard.component.css",
+  host: {
+    class: "min-h-screen flex bg-gray-100",
+  },
 })
-export class Dashboard {
-  protected readonly loading = inject(ResolverLoadingService).loading;
-}
+export class Dashboard {}

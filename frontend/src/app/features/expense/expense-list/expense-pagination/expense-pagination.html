@@ -1,0 +1,32 @@
+<div class="flex gap-2">
+    <button
+            class="btn-secondary w-fit"
+            [disabled]="loading() || hasPreviousPage()"
+            (click)="decrementPage()"
+    >
+        Previous
+    </button>
+    <button
+            class="btn-secondary w-fit"
+            [disabled]="loading() || hasNextPage()"
+            (click)="incrementPage()"
+    >
+        Next
+    </button>
+    <select
+        class="form-control-field"
+        [value]="filters().pageSize"
+        (change)="updatePageSize($event)"
+    >
+        <option value="5">5</option>
+        <option value="10">10</option>
+        <option value="20">20</option>
+    </select>
+</div>
+<div class="mt-2">
+    <p class="text-gray-500">
+        <span class="text-sm">Page {{page()}} of {{totalPages()}}</span>
+        -
+        <span class="text-md font-semibold">Total: {{totalCount()}}</span>
+    </p>
+</div>

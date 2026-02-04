@@ -1,10 +1,4 @@
-<div class="min-h-screen flex bg-gray-100">
-    <nav app-sidenav></nav>
-    <main class="flex-1 p-6">
-        @if (loading()) {
-            <p>Loading...</p>
-        } @else {
-            <router-outlet></router-outlet>
-        }
-    </main>
-</div>
+<nav app-sidenav></nav>
+<main class="flex-1 p-6">
+    <router-outlet></router-outlet>
+</main>

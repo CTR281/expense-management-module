@@ -1,11 +1,7 @@
 ﻿import { Routes } from "@angular/router";
 import { Dashboard } from "./dashboard.component";
 import { Home } from "../home/home";
-import {
-  inject,
-  makeEnvironmentProviders,
-  provideEnvironmentInitializer,
-} from "@angular/core";
+import { inject, provideEnvironmentInitializer } from "@angular/core";
 import { PageTitleService } from "../../core/page-title.service";
 
 export default [

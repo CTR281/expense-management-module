@@ -1,5 +1,5 @@
 ﻿import { Category } from "./category.model";
-import { WithOptional } from "../../../../shared/util/types";
+import { ExpenseDto } from "../../data-access/models/expense.dto";
 
 export interface Expense {
   id: string;
@@ -11,18 +11,16 @@ export interface Expense {
   isSubmitted: boolean;
 }
 
-export type MaybeExpense = WithOptional<Expense, "category">;
-
-export function allHaveCategory(
-  expenses: MaybeExpense[]
-): expenses is Expense[] {
-  return expenses.some((expense) => expense.category === undefined);
+export function toExpense(
+  expense: ExpenseDto,
+  categories: Category[]
+): Expense {
+  return {
+    ...expense,
+    category: categories.find((category) => category.id === expense.categoryId),
+  };
 }
 
-export interface ExpenseFilters {
-  categoryId: string;
-  fromDate: string;
-  toDate: string;
-  page: number;
-  pageSize: number;
+export function isEditable(expense: Expense) {
+  return !expense.isSubmitted;
 }

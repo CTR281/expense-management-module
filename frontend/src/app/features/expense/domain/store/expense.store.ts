@@ -1,87 +1,54 @@
 ﻿import { inject, Injectable, signal } from "@angular/core";
-import {
-  Expense,
-  ExpenseFilters,
-  allHaveCategory,
-  MaybeExpense,
-} from "../models/expense.model";
-import { finalize, map, Observable, of, switchMap, tap } from "rxjs";
-import { CategoryStore } from "./category.store";
-import { toExpense, toGetExpensesDto } from "../expense.mapper";
-import { AuthService } from "../../../../core/auth/auth.service";
-import { Category } from "../models/category.model";
+import { SessionScopedStore } from "../../../../core/store/store.model";
+import { Expense, toExpense } from "../models/expense.model";
 import { ExpenseRepositoryService } from "../expense-repository.service";
+import { CategoryStore } from "./category.store";
+import { finalize, map, of, switchMap, tap } from "rxjs";
 
 @Injectable()
-export class ExpenseStore {
-  private readonly expenseService = inject(ExpenseRepositoryService);
-  private readonly categoriesStore = inject(CategoryStore);
-  private readonly authService = inject(AuthService);
+export class ExpenseStore extends SessionScopedStore<Expense> {
+  private readonly expenseRepositoryService = inject(ExpenseRepositoryService);
+  private readonly categoryStore = inject(CategoryStore);
 
-  private readonly _expenses = signal<Expense[] | null>(null);
-  private readonly _filters = signal<ExpenseFilters | null>(null);
+  private readonly _expense = signal<Expense | null>(null);
+  private readonly _activeId = signal<string | null>(null);
   private readonly _loading = signal<boolean>(false);
 
-  readonly expenses = this._expenses.asReadonly();
-  readonly filters = this._filters.asReadonly();
+  readonly expense = this._expense.asReadonly();
+  readonly activeId = this._activeId.asReadonly();
   readonly loading = this._loading.asReadonly();
 
-  setFilters(filters: ExpenseFilters): void {
-    this._filters.set(filters);
-    this.invalidate();
+  setActiveId(activeId: string) {
+    if (activeId === this._activeId()) return;
+    this._activeId.set(activeId);
+    this.refresh();
   }
 
-  invalidate(): void {
-    this._expenses.set(null);
+  invalidate() {
+    this._expense.set(null);
   }
 
-  load(): Observable<Expense[]> {
-    if (this._expenses()) {
-      return of(this._expenses());
+  load() {
+    if (this._expense()) {
+      return of(this._expense());
     }
-
-    return this.fetch();
+    this.fetch();
   }
 
-  fetch(): Observable<Expense[]> {
+  protected fetch() {
     this._loading.set(true);
-
-    return this.categoriesStore.load().pipe(
-      switchMap((categories) =>
-        this.loadExpensesOnce(categories)
-          .pipe(
-            switchMap((maybeExpenses) => {
-              if (allHaveCategory(maybeExpenses)) {
-                return of(maybeExpenses);
-              }
-
-              return this.categoriesStore // categories are stale, refetch them + derived data (expenses)
-                .refresh()
-                .pipe(
-                  switchMap(
-                    (categories) =>
-                      this.loadExpensesOnce(categories) as Observable<Expense[]>
-                  )
-                );
-            })
-          )
-          .pipe(
-            tap((expenses) => this._expenses.set(expenses)),
-            finalize(() => this._loading.set(false))
-          )
-      )
-    );
-  }
-
-  private loadExpensesOnce(categories: Category[]): Observable<MaybeExpense[]> {
-    return this.expenseService
-      .getExpenses(
-        toGetExpensesDto(this._filters(), this.authService.user().id)
+    return this.categoryStore
+      .load()
+      .pipe(
+        switchMap((categories) =>
+          this.expenseRepositoryService
+            .getExpenseById(this._activeId())
+            .pipe(map((expense) => toExpense(expense, categories)))
+        )
       )
       .pipe(
-        map((expensesDto) =>
-          expensesDto.map((expenseDto) => toExpense(expenseDto, categories))
-        )
+        tap((expense: Expense) => this._expense.set(expense)),
+        finalize(() => this._loading.set(false))
       );
   }
 }
