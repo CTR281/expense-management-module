@@ -21,15 +21,6 @@ export class CategoryStore implements Store<Category[]> {
     return this.fetch();
   }
 
-  invalidate() {
-    this._categories.set(null);
-  }
-
-  refresh(): Observable<Category[]> {
-    this.invalidate();
-    return this.load();
-  }
-
   private fetch() {
     this._loading.set(true);
     return this.expenseService.getCategories().pipe(

@@ -2,15 +2,18 @@ import { CanActivateFn, Router } from "@angular/router";
 import { inject } from "@angular/core";
 import { ExpenseService } from "../expense-service";
 import { map } from "rxjs";
-import { isEditable } from "../domain/models/expense.model";
+import { IsEditablePipe } from "./is-editable.pipe";
 
-export const canEditExpenseGuard: CanActivateFn = (route) =>
-  inject(ExpenseService)
+export const canEditExpenseGuard: CanActivateFn = (route) => {
+  const isEditablePipe = inject(IsEditablePipe);
+  const router = inject(Router);
+  return inject(ExpenseService)
     .loadExpense(route.paramMap.get("id"))
     .pipe(
       map((expense) => {
-        if (!isEditable(expense))
-          return inject(Router).parseUrl("/expense-list");
+        if (!isEditablePipe.transform(expense))
+          return router.parseUrl("/expense-list");
         return true;
       })
     );
+};

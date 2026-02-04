@@ -4,17 +4,17 @@
             routerLink="/expenses/new"
             class="btn-primary w-fit h-fit text-center"
     >
-        New expense
+        New Expense
     </a>
 </div>
 
-<div class="flex-18">
+<div class="flex-18 mt-6">
     @if(expensesState.loading()) {
-        Loading expenses...
+        <p>Loading expenses...</p>
     } @else {
-        <div class="flex flex-col gap-2 mt-6">
+        <div class="flex flex-col gap-2">
             @for (expense of expensesState.data().data; track expense.id) {
-                <app-expense-card [expense]="expense"></app-expense-card>
+                <app-expense-card [expense]="expense" (click)="navigateToDetails(expense.id)"></app-expense-card>
             }
         </div>
     }

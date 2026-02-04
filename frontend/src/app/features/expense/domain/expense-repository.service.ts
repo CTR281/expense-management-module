@@ -10,7 +10,7 @@ import {
 } from "../data-access/models/create-expense/create-expense-result.dto";
 import { CreateExpenseBodyDto } from "../data-access/models/create-expense/create-expense-body.dto";
 import {
-  EDIT_EXPENSE_BODY_ERRORS,
+  EDIT_EXPENSE_ERRORS,
   EditExpenseBodyDto,
 } from "../data-access/models/edit-expense/edit-expense-body";
 import { HttpErrorResponse } from "@angular/common/http";
@@ -19,7 +19,13 @@ import {
   NotFoundError,
 } from "../../../core/http/errors.model";
 import { Paginated, toPaginatedExpenseDto } from "./models/expense-view.model";
+import { DELETE_EXPENSE_ERRORS } from "../data-access/models/delete-expense/delete-expense.dto";
+import { SUBMIT_EXPENSE_ERRORS } from "../data-access/models/submit-expense/submit-expense.dto";
 
+/**
+ * Translate DTO models into Domain models and map errors to the domain
+ *
+ */
 @Injectable()
 export class ExpenseRepositoryService {
   private readonly httpService = inject(ExpensesHttpService);
@@ -41,15 +47,12 @@ export class ExpenseRepositoryService {
   ): Observable<CreateExpenseResultDto> {
     return this.httpService.createExpense(request).pipe(
       catchError((err) => {
-        console.log("repo error");
         if (!(err instanceof HttpErrorResponse)) {
           return throwError(() => err);
         }
-        console.log("repo error is HttpError");
         switch (err.status) {
           case CREATE_EXPENSE_ERRORS.BAD_REQUEST:
-            console.log("repo error is bad request", err);
-            return throwError(() => new BadRequestError(err.error));
+            return throwError(() => new BadRequestError());
           default:
             return throwError(() => err);
         }
@@ -60,15 +63,48 @@ export class ExpenseRepositoryService {
   editExpense(id: string, body: EditExpenseBodyDto): Observable<void> {
     return this.httpService.editExpense(id, body).pipe(
       catchError((err) => {
-        console.log("repo error");
         if (!(err instanceof HttpErrorResponse)) {
           return throwError(() => err);
         }
         switch (err.status) {
-          case EDIT_EXPENSE_BODY_ERRORS.BAD_REQUEST:
-            return throwError(() => new BadRequestError(err.error));
-          case EDIT_EXPENSE_BODY_ERRORS.NOT_FOUND:
-            return throwError(() => new NotFoundError(err.error));
+          case EDIT_EXPENSE_ERRORS.BAD_REQUEST:
+            return throwError(() => new BadRequestError());
+          case EDIT_EXPENSE_ERRORS.NOT_FOUND:
+            return throwError(() => new NotFoundError());
+          default:
+            return throwError(() => err);
+        }
+      })
+    );
+  }
+
+  deleteExpense(id: string): Observable<void> {
+    return this.httpService.deleteExpense(id).pipe(
+      catchError((err) => {
+        if (!(err instanceof HttpErrorResponse)) {
+          return throwError(() => err);
+        }
+        switch (err.status) {
+          case DELETE_EXPENSE_ERRORS.BAD_REQUEST:
+            return throwError(() => new BadRequestError());
+          case DELETE_EXPENSE_ERRORS.NOT_FOUND:
+            return throwError(() => new NotFoundError());
+          default:
+            return throwError(() => err);
+        }
+      })
+    );
+  }
+
+  submitExpense(id: string): Observable<void> {
+    return this.httpService.submitExpense(id).pipe(
+      catchError((err) => {
+        if (!(err instanceof HttpErrorResponse)) {
+          return throwError(() => err);
+        }
+        switch (err.status) {
+          case SUBMIT_EXPENSE_ERRORS.NOT_FOUND:
+            return throwError(() => new NotFoundError());
           default:
             return throwError(() => err);
         }

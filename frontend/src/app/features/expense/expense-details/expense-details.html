@@ -1,1 +1,27 @@
-<p>expense-details works!</p>
+<div
+    class="flex gap-12 justify-between"
+>
+    <div class="flex gap-6">
+        <button class="icon-button" routerLink="/expenses" aria-label="Back">
+            <app-icon-back></app-icon-back>
+        </button>
+        <h1 class="page-title">Expense n°{{expense.id}}</h1>
+        @if(expense | isEditable) {
+            <button class="btn-primary w-fit h-fit px-10 py-2" [routerLink]="`/expenses/${expense.id}/edit`">Edit</button>
+        }
+    </div>
+    <app-status-badge [isSubmitted]="expense.isSubmitted"></app-status-badge>
+</div>
+
+<div class="flex flex-col gap-6 flex-1 mt-6 p-4 bg-white rounded-xl shadow-md">
+    <p class="text-2xl font-semibold">Category: <span class="text-4xl font-bold px-4">{{expense.category.name}}</span></p>
+    <p class="text-2xl font-semibold">Date: <span class="text-4xl font-bold px-4">{{expense.date | date: 'mediumDate'}}</span></p>
+    <p class="text-2xl font-semibold">Amount: <span class="text-4xl font-bold px-4">{{expense.amount | currency:expense.currencyCode}}</span></p>
+</div>
+
+@if(expense | isEditable) {
+    <div class="flex gap-2 justify-between mt-6">
+        <button class="btn-primary border-0 bg-[var(--color-danger)]" (click)="deleteExpense()" [disabled]="submitting()">Delete</button>
+        <button class="btn-primary" (click)="submitExpense()" [disabled]="submitting()">Submit my expense</button>
+    </div>
+}

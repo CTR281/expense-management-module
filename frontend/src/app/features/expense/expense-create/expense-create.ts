@@ -1,6 +1,5 @@
 import { Component, inject, signal } from "@angular/core";
-import { ActivatedRoute, Router, RouterLink } from "@angular/router";
-import { AsyncPipe } from "@angular/common";
+import { Router } from "@angular/router";
 import { ExpenseService } from "../expense-service";
 import {
   FormControl,
@@ -8,18 +7,20 @@ import {
   ReactiveFormsModule,
   Validators,
 } from "@angular/forms";
-import { CURRENCY_CODE } from "./models/currency";
+import { CURRENCY_CODE } from "../domain/models/currency";
 
 @Component({
   selector: "app-expense-create",
   imports: [ReactiveFormsModule],
   templateUrl: "./expense-create.html",
   styleUrl: "./expense-create.css",
+  host: {
+    class: "flex flex-col flex-1 h-full gap-6",
+  },
 })
 export class ExpenseCreate {
   private readonly expenseService = inject(ExpenseService);
   private readonly router = inject(Router);
-  private readonly route = inject(ActivatedRoute);
 
   readonly categoriesState = this.expenseService.categoriesState;
 
@@ -50,13 +51,13 @@ export class ExpenseCreate {
 
     this.expenseService.createExpense(this.form.getRawValue()).subscribe({
       next: () => {
-        this.router.navigate(["..", { relativeTo: this.route }]);
+        this.router.navigate(["/expenses"]);
       },
       error: () => this.submitting.set(false),
     });
   }
 
   back(): void {
-    this.router.navigate([".."], { relativeTo: this.route });
+    this.router.navigate(["/expenses"]);
   }
 }

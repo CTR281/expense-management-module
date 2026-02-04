@@ -1,7 +1,7 @@
 import { inject, Injectable } from "@angular/core";
 import { UserHttpService } from "../data-access/user-http.service";
 import { User } from "./user.model";
-import { map, Observable, throwError } from "rxjs";
+import { map, Observable } from "rxjs";
 import { toUser } from "../data-access/user.mapper";
 import { UserDto } from "../data-access/user.dto";
 

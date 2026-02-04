@@ -11,8 +11,6 @@ export interface Store<T> {
   /**
    * Resets store data
    */
-  invalidate(): void;
-  refresh(): Observable<T>;
 }
 
 export interface StoreState<T> {
@@ -27,13 +25,18 @@ export abstract class SessionScopedStore<T> implements Store<T> {
 
   constructor() {
     this.authService.loggedOut$.pipe(takeUntilDestroyed()).subscribe(() => {
-      this.invalidate();
+      this.reset();
     });
   }
+
   abstract load(): Observable<T>;
+
   invalidate(): void {
     this.isStale = true;
   }
+
+  abstract reset(): void;
+
   refresh(): Observable<T> {
     this.invalidate();
     return this.load();

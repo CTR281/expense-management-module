@@ -1,4 +1,5 @@
-import { Component } from "@angular/core";
+import { Component, inject } from "@angular/core";
+import { PageTitleService } from "../../core/page-title.service";
 
 @Component({
   selector: "app-home",
@@ -9,4 +10,8 @@ import { Component } from "@angular/core";
     class: "min-h-full flex justify-center items-center",
   },
 })
-export class Home {}
+export class Home {
+  constructor() {
+    inject(PageTitleService).setPageTitle("Home");
+  }
+}

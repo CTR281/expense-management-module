@@ -14,19 +14,19 @@ export class ExpensePagination {
   private readonly expenseService = inject(ExpenseService);
 
   readonly filters = this.expenseService.filters;
-  readonly loading = this.expenseService.expenseViewState.loading;
+  readonly loading = this.expenseService.expensesState.loading;
 
   readonly totalPages = computed(
-    () => this.expenseService.expenseViewState.data().totalPages
+    () => this.expenseService.expensesState.data().totalPages
   );
   readonly totalCount = computed(
-    () => this.expenseService.expenseViewState.data().totalCount
+    () => this.expenseService.expensesState.data().totalCount
   );
   readonly hasPreviousPage = computed(
-    () => this.expenseService.expenseViewState.data().hasPreviousPage
+    () => this.expenseService.expensesState.data().hasPreviousPage
   );
   readonly hasNextPage = computed(
-    () => this.expenseService.expenseViewState.data().hasNextPage
+    () => this.expenseService.expensesState.data().hasNextPage
   );
   readonly page = computed(() => this.filters().page);
 
@@ -42,6 +42,9 @@ export class ExpensePagination {
 
   updatePageSize(event: Event) {
     const value = (event.target as HTMLSelectElement).value;
-    this.expenseService.updateFilters({ pageSize: parseInt(value, 10) });
+    this.expenseService.updateFilters({
+      page: 1,
+      pageSize: parseInt(value, 10),
+    });
   }
 }

@@ -1,6 +1,6 @@
 ﻿import { inject, Injectable, signal } from "@angular/core";
-import { Expense, toExpense } from "../models/expense.model";
-import { finalize, map, Observable, of, switchMap, tap } from "rxjs";
+import { Expense } from "../models/expense.model";
+import { finalize, map, of, switchMap, tap } from "rxjs";
 import { CategoryStore } from "./category.store";
 import { ExpenseRepositoryService } from "../expense-repository.service";
 import { SessionScopedStore } from "../../../../core/store/store.model";
@@ -41,6 +41,10 @@ export class ExpenseViewStore extends SessionScopedStore<Paginated<Expense>> {
     return this.fetch();
   }
 
+  reset() {
+    this._expenses.set(null);
+  }
+
   protected fetch() {
     this._loading.set(true);
 
@@ -57,7 +61,10 @@ export class ExpenseViewStore extends SessionScopedStore<Paginated<Expense>> {
           )
           .pipe(
             tap((expenses) => this._expenses.set(expenses)),
-            finalize(() => this._loading.set(false))
+            finalize(() => {
+              this._loading.set(false);
+              this.isStale = false;
+            })
           )
       )
     );

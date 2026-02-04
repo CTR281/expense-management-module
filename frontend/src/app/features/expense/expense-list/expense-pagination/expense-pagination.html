@@ -1,14 +1,14 @@
 <div class="flex gap-2">
     <button
             class="btn-secondary w-fit"
-            [disabled]="loading() || hasPreviousPage()"
+            [disabled]="loading() || !hasPreviousPage()"
             (click)="decrementPage()"
     >
         Previous
     </button>
     <button
             class="btn-secondary w-fit"
-            [disabled]="loading() || hasNextPage()"
+            [disabled]="loading() || !hasNextPage()"
             (click)="incrementPage()"
     >
         Next

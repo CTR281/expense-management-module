@@ -9,9 +9,6 @@ import { Expense } from "./domain/models/expense.model";
 import { ExpenseDetails } from "./expense-details/expense-details";
 import { catchError, of } from "rxjs";
 import { NotificationService } from "../../core/notification/notification-service";
-import { CategoryStore } from "./domain/store/category.store";
-import { ExpenseStore } from "./domain/store/expense.store";
-import { ExpenseViewStore } from "./domain/store/expense-view-store.service";
 import { ExpenseService } from "./expense-service";
 import { ExpenseEdit } from "./expense-edit/expense-edit";
 import { canEditExpenseGuard } from "./expense-edit/can-edit-expense-guard";
@@ -56,7 +53,7 @@ export default [
     },
     children: [
       {
-        path: "expense-list", //
+        path: "expense-list",
         component: ExpenseList,
         resolve: {
           expenses: resolveExpenses,

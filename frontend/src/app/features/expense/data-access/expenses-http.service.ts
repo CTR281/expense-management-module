@@ -1,6 +1,6 @@
 import { inject, Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
-import { catchError, Observable, throwError } from "rxjs";
+import { Observable } from "rxjs";
 import { GetCategoriesQueryDto } from "./models/get-categories/get-categories-query.dto";
 import { GetExpensesQueryDto } from "./models/get-expenses/get-expenses-query.dto";
 import { toHttpParams } from "../../../shared/util/http";
@@ -26,7 +26,6 @@ export class ExpensesHttpService {
 
   getExpenses(query: GetExpensesQueryDto): Observable<GetExpensesResultDto> {
     const params = toHttpParams(query);
-    console.log(params);
     return this.http.get<GetExpensesResultDto>(`/expenses`, { params });
   }
   getExpenseById(id: string): Observable<GetExpenseByIdResultDto> {
@@ -36,12 +35,7 @@ export class ExpensesHttpService {
   createExpense(
     request: CreateExpenseBodyDto
   ): Observable<CreateExpenseResultDto> {
-    return this.http.post<CreateExpenseResultDto>(`/expenses`, request).pipe(
-      catchError((err) => {
-        console.log("http error", err);
-        return throwError(() => err);
-      })
-    );
+    return this.http.post<CreateExpenseResultDto>(`/expenses`, request);
   }
 
   editExpense(id: string, body: EditExpenseBodyDto): Observable<void> {

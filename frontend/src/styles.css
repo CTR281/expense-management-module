@@ -166,7 +166,7 @@
             ring-indigo-500;
     }
 
-    .badge-success {
+    .badge-validated {
         @apply
             rounded-full
             bg-green-200
@@ -184,6 +184,13 @@
             py-0.5
             text-xs
             text-gray-600
+    }
+
+    .page-title {
+        @apply
+            text-2xl
+            font-semibold
+            text-[var(--color-font-primary)]
     }
 }
 

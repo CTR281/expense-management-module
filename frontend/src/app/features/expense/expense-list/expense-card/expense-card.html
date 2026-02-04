@@ -2,11 +2,7 @@
     <span class="text-sm font-medium text-gray-800">
       {{ expense().category.name }}
     </span>
-    @if (expense().isSubmitted) {
-        <span class="badge-success">Submitted</span>
-    } @else {
-        <span class="badge-pending">Draft</span>
-    }
+    <app-status-badge [isSubmitted]="expense().isSubmitted"></app-status-badge>
 </div>
 
 <!-- Amount -->

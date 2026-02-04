@@ -1,1 +1,94 @@
-<p>expense-edit works!</p>
+<div class="flex items-center justify-between">
+    <h1 class="page-title">
+        Edit expense n°{{expense.id}}
+    </h1>
+</div>
+<form
+        class="flex flex-1 flex-col justify-between gap-8"
+        [formGroup]="form"
+        (ngSubmit)="submit()"
+>
+    <div class="grid max-w-2xl grid-cols-1 gap-6">
+        <div class="form-control">
+            <label for="amount" class="form-control-label">
+                Amount
+            </label>
+            <input
+                    id="amount"
+                    type="number"
+                    class="form-control-field"
+                    placeholder="0.00"
+                    formControlName="amount"
+            />
+            @if (form.controls.amount.touched && form.controls.amount.invalid) {
+                <p class="form-control-error">
+                    @if (form.controls.amount.errors?.['required']) {
+                        Amount is required.
+                    }
+                    @if (form.controls.amount.errors?.['min']) {
+                        Amount must be greater than 0.
+                    }
+                </p>
+            }
+        </div>
+
+        <div class="form-control">
+            <label for="currency" class="form-control-label">
+                Currency
+            </label>
+            <select
+                    id="currency"
+                    class="form-control-field"
+                    formControlName="currencyCode"
+            >
+                <option value="EUR">EUR</option>
+                <option value="USD">USD</option>
+            </select>
+        </div>
+
+        <div class="form-control">
+            <label for="category" class="form-control-label">
+                Category
+            </label>
+            <select
+                    id="category"
+                    class="form-control-field"
+                    formControlName="categoryId"
+            >
+                <option value="">Select a category</option>
+                @if(categoriesState.loading()) {
+                    <option disabled>Loading...</option>
+                } @else {
+                    @for (category of categoriesState.data(); track category.id) {
+                        <option [value]="category.id">
+                            {{ category.name }}
+                        </option>
+                    }
+                }
+            </select>
+            @if (form.controls.categoryId.touched && form.controls.categoryId.invalid) {
+                <p class="form-control-error">
+                    Category is required.
+                </p>
+            }
+        </div>
+    </div>
+
+    <footer class="flex justify-end gap-3 border-t pt-6">
+        <button
+                type="button"
+                class="btn-secondary"
+                (click)="back()"
+        >
+            Cancel
+        </button>
+
+        <button
+                type="submit"
+                class="btn-primary"
+                [disabled]="form.invalid || submitting()"
+        >
+            Save
+        </button>
+    </footer>
+</form>

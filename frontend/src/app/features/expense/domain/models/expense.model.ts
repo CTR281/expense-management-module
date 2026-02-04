@@ -16,11 +16,12 @@ export function toExpense(
   categories: Category[]
 ): Expense {
   return {
-    ...expense,
+    id: expense.id,
+    date: expense.date,
+    ownerId: expense.ownerId,
+    amount: expense.amount,
+    currencyCode: expense.currencyCode,
     category: categories.find((category) => category.id === expense.categoryId),
+    isSubmitted: expense.isSubmitted,
   };
-}
-
-export function isEditable(expense: Expense) {
-  return !expense.isSubmitted;
 }
