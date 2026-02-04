@@ -4,6 +4,7 @@ using WebApi.Application.Expenses.Commands.CreateExpense;
 using WebApi.Application.Expenses.Commands.DeleteExpense;
 using WebApi.Application.Expenses.Commands.EditExpense;
 using WebApi.Application.Expenses.Commands.SubmitExpense;
+using WebApi.Application.Expenses.Queries.CheckExpenseUniqueness;
 using WebApi.Application.Expenses.Queries.GetExpenseById;
 using WebApi.Application.Expenses.Queries.GetExpenses;
 
@@ -45,6 +46,19 @@ internal static class ExpenseEndpoints
         })
         .WithName("GetExpenses")
         .WithSummary("Get all expenses with optional filters and pagination");
+
+        group.MapGet("/unique", async Task<Ok<bool>> (
+            CheckExpenseUniquenessQueryHandler handler,
+            CancellationToken cancellationToken,
+            Guid userId,
+            DateOnly date) =>
+        {
+            var query = new CheckExpenseUniquenessQuery(userId, date);
+            var exists = await handler.Handle(query, cancellationToken);
+            return TypedResults.Ok(exists);
+        })
+        .WithName("CheckExpenseUniqueness")
+        .WithSummary("Check if an expense is a unique for a user on a specific date");
 
         group.MapPost("/", async Task<Results<Created<Guid>, BadRequest<string>>> (
             CreateExpenseRequest request,

@@ -10,6 +10,7 @@ import { CreateExpenseBodyDto } from "./models/create-expense/create-expense-bod
 import { CreateExpenseResultDto } from "./models/create-expense/create-expense-result.dto";
 import { GetExpenseByIdResultDto } from "./models/get-expense-by-id/get-expense-by-id-result.dto";
 import { EditExpenseBodyDto } from "./models/edit-expense/edit-expense-body";
+import { CheckExpenseUniquenessQueryDto } from "./models/check-expense-uniqueness/check-expense-uniqueness-query.dto";
 
 @Injectable({
   providedIn: "root",
@@ -30,6 +31,13 @@ export class ExpensesHttpService {
   }
   getExpenseById(id: string): Observable<GetExpenseByIdResultDto> {
     return this.http.get<GetExpenseByIdResultDto>(`/expenses/${id}`);
+  }
+
+  checkExpenseUniqueness(
+    query: CheckExpenseUniquenessQueryDto
+  ): Observable<boolean> {
+    const params = toHttpParams(query);
+    return this.http.get<boolean>(`/expenses/unique`, { params });
   }
 
   createExpense(

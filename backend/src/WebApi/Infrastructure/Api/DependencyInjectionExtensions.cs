@@ -3,6 +3,7 @@ using WebApi.Application.Expenses.Commands.CreateExpense;
 using WebApi.Application.Expenses.Commands.DeleteExpense;
 using WebApi.Application.Expenses.Commands.EditExpense;
 using WebApi.Application.Expenses.Commands.SubmitExpense;
+using WebApi.Application.Expenses.Queries.CheckExpenseUniqueness;
 using WebApi.Application.Expenses.Queries.GetExpenseById;
 using WebApi.Application.Expenses.Queries.GetExpenses;
 using WebApi.Application.Users.Queries.GetUsers;
@@ -20,6 +21,7 @@ internal static class DependencyInjectionExtensions
         services.AddScoped<SubmitExpenseCommandHandler>();
 
         // Register query handlers
+        services.AddScoped<CheckExpenseUniquenessQueryHandler>();
         services.AddScoped<GetExpenseByIdQueryHandler>();
         services.AddScoped<GetExpensesQueryHandler>();
         services.AddScoped<GetCategoriesQueryHandler>();

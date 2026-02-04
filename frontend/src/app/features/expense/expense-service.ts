@@ -77,6 +77,13 @@ export class ExpenseService {
       );
   }
 
+  checkExpenseUniqueness(date: string): Observable<boolean> {
+    return this.expenseRepositoryService.checkExpenseUniqueness({
+      userId: this.authService.user().id,
+      date,
+    });
+  }
+
   createExpense(
     command: CreateExpenseCommand
   ): Observable<CreateExpenseResultDto> {

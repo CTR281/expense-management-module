@@ -13,8 +13,27 @@ builder.Services
     .AddOpenApi()
     .AddPersistence();
 builder.Services.AddHealthChecks();
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("Default", policy =>
+    {
+        var allowedOrigins = builder.Configuration
+            .GetSection("Cors:AllowedOrigins")
+            .Get<string[]>() ?? Array.Empty<string>();
+
+        if (allowedOrigins.Length > 0)
+        {
+            policy
+                .WithOrigins(allowedOrigins)
+                .AllowAnyHeader()
+                .AllowAnyMethod();
+        }
+    });
+});
 
 var app = builder.Build();
+
+app.UseCors("Default");
 
 // Seed the in-memory database
 using (var scope = app.Services.CreateScope())

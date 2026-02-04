@@ -20,4 +20,6 @@
     }
 </div>
 
-<app-expense-pagination class="flex-1 mt-6"></app-expense-pagination>
+@if(expensesState.data().data?.length | not : 0) {
+    <app-expense-pagination class="flex-1 mt-6"></app-expense-pagination>
+}

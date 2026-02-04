@@ -4,6 +4,7 @@ import { ExpenseRepositoryService } from "./domain/expense-repository.service";
 import { CategoryStore } from "./domain/store/category.store";
 import { ExpenseService } from "./expense-service";
 import { IsEditablePipe } from "./expense-edit/is-editable.pipe";
+import { UniqueExpenseDateValidator } from "./expense-create/unique-expense-date-validator.service";
 
 export function provideExpenses(): EnvironmentProviders {
   return makeEnvironmentProviders([
@@ -12,5 +13,6 @@ export function provideExpenses(): EnvironmentProviders {
     ExpenseRepositoryService,
     ExpenseService,
     IsEditablePipe,
+    UniqueExpenseDateValidator,
   ]);
 }

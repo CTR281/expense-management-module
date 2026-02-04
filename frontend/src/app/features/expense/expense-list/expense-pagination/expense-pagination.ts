@@ -7,7 +7,7 @@ import { ExpenseService } from "../../expense-service";
   templateUrl: "./expense-pagination.html",
   styleUrl: "./expense-pagination.css",
   host: {
-    class: "flex flex-col items-center",
+    class: "flex flex-col justify-center items-center",
   },
 })
 export class ExpensePagination {

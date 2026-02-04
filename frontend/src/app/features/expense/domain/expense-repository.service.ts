@@ -21,6 +21,7 @@ import {
 import { Paginated, toPaginatedExpenseDto } from "./models/expense-view.model";
 import { DELETE_EXPENSE_ERRORS } from "../data-access/models/delete-expense/delete-expense.dto";
 import { SUBMIT_EXPENSE_ERRORS } from "../data-access/models/submit-expense/submit-expense.dto";
+import { CheckExpenseUniquenessQueryDto } from "../data-access/models/check-expense-uniqueness/check-expense-uniqueness-query.dto";
 
 /**
  * Translate DTO models into Domain models and map errors to the domain
@@ -40,6 +41,12 @@ export class ExpenseRepositoryService {
 
   getExpenseById(id: string): Observable<ExpenseDto> {
     return this.httpService.getExpenseById(id);
+  }
+
+  checkExpenseUniqueness(
+    query: CheckExpenseUniquenessQueryDto
+  ): Observable<boolean> {
+    return this.httpService.checkExpenseUniqueness(query);
   }
 
   createExpenses(

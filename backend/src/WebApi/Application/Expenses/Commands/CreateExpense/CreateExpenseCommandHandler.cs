@@ -1,21 +1,25 @@
 using Microsoft.EntityFrameworkCore;
+using WebApi.Application.Expenses.Queries.CheckExpenseUniqueness;
 using WebApi.Domain.Entities;
 using WebApi.Domain.ValueObjects;
 using WebApi.Infrastructure.Persistence;
 
 namespace WebApi.Application.Expenses.Commands.CreateExpense;
 
-internal sealed class CreateExpenseCommandHandler(AppDbContext dbContext)
+internal sealed class CreateExpenseCommandHandler(
+    AppDbContext dbContext,
+    CheckExpenseUniquenessQueryHandler uniquenessQueryHandler)
 {
     public async Task<Guid> Handle(CreateExpenseCommand command, CancellationToken cancellationToken)
     {
         var ownerId = UserId.From(command.OwnerId);
 
         // Check uniqueness: one expense per user per day
-        var existingExpense = await dbContext.Set<Expense>()
-            .FirstOrDefaultAsync(e => e.Owner == ownerId && e.Date == command.Date, cancellationToken);
+        var uniqueExpense = await uniquenessQueryHandler.Handle(
+            new CheckExpenseUniquenessQuery(command.OwnerId, command.Date),
+            cancellationToken);
 
-        if (existingExpense is not null)
+        if (!uniqueExpense)
         {
             throw new InvalidOperationException($"An expense already exists for user {command.OwnerId} on {command.Date}");
         }

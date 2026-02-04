@@ -21,7 +21,12 @@
             />
             @if (form.controls.date.touched && form.controls.date.invalid) {
                 <p class="form-control-error">
-                    Date is required.
+                    @if (form.controls.date.errors?.['required']) {
+                        Date is required.
+                    }
+                    @if (form.controls.date.errors?.['isUnique']) {
+                        Another expense already exists at that date.
+                    }
                 </p>
             }
         </div>

@@ -8,6 +8,7 @@ import {
   Validators,
 } from "@angular/forms";
 import { CURRENCY_CODE } from "../domain/models/currency";
+import { UniqueExpenseDateValidator } from "./unique-expense-date-validator.service";
 
 @Component({
   selector: "app-expense-create",
@@ -21,6 +22,9 @@ import { CURRENCY_CODE } from "../domain/models/currency";
 export class ExpenseCreate {
   private readonly expenseService = inject(ExpenseService);
   private readonly router = inject(Router);
+  private readonly uniqueExpenseDateValidator = inject(
+    UniqueExpenseDateValidator
+  );
 
   readonly categoriesState = this.expenseService.categoriesState;
 
@@ -35,6 +39,11 @@ export class ExpenseCreate {
     }),
     date: new FormControl<string | null>(null, {
       validators: [Validators.required],
+      asyncValidators: [
+        this.uniqueExpenseDateValidator.validate.bind(
+          this.uniqueExpenseDateValidator
+        ),
+      ],
     }),
     currencyCode: new FormControl<string>(CURRENCY_CODE.EUR, {
       nonNullable: true,
