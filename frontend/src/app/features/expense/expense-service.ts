@@ -5,13 +5,13 @@ import {
   CreateExpenseCommand,
   toCreateExpenseRequestDto,
 } from "./domain/models/create-expense-command.model";
-import { catchError, map, Observable, switchMap, tap, throwError } from "rxjs";
+import { catchError, Observable, switchMap, tap, throwError } from "rxjs";
 import { CreateExpenseResultDto } from "./data-access/models/create-expense/create-expense-result.dto";
 import { NotificationService } from "../../core/notification/notification-service";
 import { ExpenseListViewStore } from "./domain/store/expense-view-store.service";
 import { CategoryStore } from "./domain/store/category.store";
 import { Category } from "./domain/models/category.model";
-import { Expense, toExpense } from "./domain/models/expense.model";
+import { Expense } from "./domain/models/expense.model";
 import { BadRequestError, NotFoundError } from "../../core/http/errors.model";
 import {
   EditExpenseCommand,
@@ -22,6 +22,7 @@ import { ExpenseFilters, Paginated } from "./domain/models/expense-view.model";
 import { DeleteExpenseCommand } from "./domain/models/delete-expense-command.model";
 import { Router } from "@angular/router";
 import { SubmitExpenseCommand } from "./domain/models/submit-expense-command.model";
+import { User } from "../user/domain/user.model";
 
 /**
  * Facade service of the Expense Feature
@@ -70,16 +71,14 @@ export class ExpenseService {
       .load()
       .pipe(
         switchMap((categories) =>
-          this.expenseRepositoryService
-            .getExpenseById(id)
-            .pipe(map((expense) => toExpense(expense, categories)))
+          this.expenseRepositoryService.getExpenseById(id, categories)
         )
       );
   }
 
   checkExpenseUniqueness(date: string): Observable<boolean> {
     return this.expenseRepositoryService.checkExpenseUniqueness({
-      userId: this.authService.user().id,
+      userId: (this.authService.user() as User).id,
       date,
     });
   }
@@ -89,7 +88,7 @@ export class ExpenseService {
   ): Observable<CreateExpenseResultDto> {
     return this.expenseRepositoryService
       .createExpenses(
-        toCreateExpenseRequestDto(command, this.authService.user().id)
+        toCreateExpenseRequestDto(command, (this.authService.user() as User).id)
       )
       .pipe(
         catchError((err) => {

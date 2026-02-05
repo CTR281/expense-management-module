@@ -1,6 +1,5 @@
 ﻿import { GetExpensesResultDto } from "../../data-access/models/get-expenses/get-expenses-result.dto";
-import { ExpenseDto } from "../../data-access/models/expense.dto";
-import { toExpense } from "./expense.model";
+import { Expense, toExpense } from "./expense.model";
 import { Category } from "./category.model";
 
 export interface ExpenseFilters {
@@ -29,26 +28,17 @@ export interface Paginated<T> {
   hasNextPage: boolean;
 }
 
-export function toPaginatedExpenseDto(
-  getExpensesResultDto: GetExpensesResultDto
-): Paginated<ExpenseDto> {
+export function toPaginatedExpense(
+  getExpensesResultDto: GetExpensesResultDto,
+  categories: NonNullable<Category[]>
+): Paginated<Expense> {
   return {
-    data: getExpensesResultDto.items,
+    data: getExpensesResultDto.items.map((expenseDto) =>
+      toExpense(expenseDto, categories)
+    ),
     totalCount: getExpensesResultDto.totalCount,
     totalPages: getExpensesResultDto.totalPages,
     hasPreviousPage: getExpensesResultDto.hasPreviousPage,
     hasNextPage: getExpensesResultDto.hasNextPage,
-  };
-}
-
-export function toPaginatedExpense(
-  paginatedExpenseDto: Paginated<ExpenseDto>,
-  categories: Category[]
-) {
-  return {
-    ...paginatedExpenseDto,
-    data: paginatedExpenseDto.data.map((expenseDto) =>
-      toExpense(expenseDto, categories)
-    ),
   };
 }

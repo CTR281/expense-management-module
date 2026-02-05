@@ -1,6 +1,6 @@
 ﻿import { inject, Injectable, signal } from "@angular/core";
 import { Expense } from "../models/expense.model";
-import { finalize, map, of, switchMap, tap } from "rxjs";
+import { finalize, of, switchMap, tap } from "rxjs";
 import { CategoryStore } from "./category.store";
 import { ExpenseRepositoryService } from "../expense-repository.service";
 import { SessionScopedStore } from "../../../../core/store/store.model";
@@ -9,8 +9,8 @@ import {
   areFiltersEqual,
   ExpenseFilters,
   Paginated,
-  toPaginatedExpense,
 } from "../models/expense-view.model";
+import { User } from "../../../user/domain/user.model";
 
 @Injectable()
 export class ExpenseListViewStore extends SessionScopedStore<
@@ -41,7 +41,7 @@ export class ExpenseListViewStore extends SessionScopedStore<
 
   load() {
     if (!this.isStale && this._expenses()) {
-      return of(this._expenses());
+      return of(this._expenses() as Paginated<Expense>);
     }
     return this.fetch();
   }
@@ -55,16 +55,14 @@ export class ExpenseListViewStore extends SessionScopedStore<
     this._loading.set(true);
 
     return this.categoriesStore.load().pipe(
-      // move to repo (with categories as optional input)
       switchMap((categories) =>
         this.expenseRepositoryService
           .getExpenses(
-            toGetExpensesQueryDto(this._filters(), this.authService.user().id)
-          )
-          .pipe(
-            map((paginatedExpenseDto) =>
-              toPaginatedExpense(paginatedExpenseDto, categories)
-            )
+            toGetExpensesQueryDto(
+              this._filters(),
+              (this.authService.user() as User).id
+            ),
+            categories
           )
           .pipe(
             tap((expenses) => this._expenses.set(expenses)),

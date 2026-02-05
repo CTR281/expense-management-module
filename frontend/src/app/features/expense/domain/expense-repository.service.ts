@@ -1,9 +1,8 @@
 import { inject, Injectable } from "@angular/core";
 import { ExpensesHttpService } from "../data-access/expenses-http.service";
 import { Category } from "./models/category.model";
-import { catchError, map, Observable, throwError } from "rxjs";
+import { catchError, map, Observable, switchMap, throwError } from "rxjs";
 import { GetExpensesQueryDto } from "../data-access/models/get-expenses/get-expenses-query.dto";
-import { ExpenseDto } from "../data-access/models/expense.dto";
 import {
   CREATE_EXPENSE_ERRORS,
   CreateExpenseResultDto,
@@ -18,10 +17,12 @@ import {
   BadRequestError,
   NotFoundError,
 } from "../../../core/http/errors.model";
-import { Paginated, toPaginatedExpenseDto } from "./models/expense-view.model";
+import { Paginated, toPaginatedExpense } from "./models/expense-view.model";
 import { DELETE_EXPENSE_ERRORS } from "../data-access/models/delete-expense/delete-expense.dto";
 import { SUBMIT_EXPENSE_ERRORS } from "../data-access/models/submit-expense/submit-expense.dto";
 import { CheckExpenseUniquenessQueryDto } from "../data-access/models/check-expense-uniqueness/check-expense-uniqueness-query.dto";
+import { CategoriesHttpService } from "../data-access/categories-http.service";
+import { Expense, toExpense } from "./models/expense.model";
 
 /**
  * Translate DTO models into Domain models and map errors to the domain
@@ -29,30 +30,59 @@ import { CheckExpenseUniquenessQueryDto } from "../data-access/models/check-expe
  */
 @Injectable()
 export class ExpenseRepositoryService {
-  private readonly httpService = inject(ExpensesHttpService);
+  private readonly expensesHttpService = inject(ExpensesHttpService);
+  private readonly categoriesHttpService = inject(CategoriesHttpService);
 
   getCategories(): Observable<Category[]> {
-    return this.httpService.getCategories().pipe(map((res) => res.items));
+    return this.categoriesHttpService
+      .getCategories()
+      .pipe(map((res) => res.items));
   }
 
-  getExpenses(query: GetExpensesQueryDto): Observable<Paginated<ExpenseDto>> {
-    return this.httpService.getExpenses(query).pipe(map(toPaginatedExpenseDto));
+  getExpenses(
+    query: GetExpensesQueryDto,
+    categories: Category[] | null
+  ): Observable<Paginated<Expense>> {
+    const fetchExpenses = (categories: Category[]) =>
+      this.expensesHttpService
+        .getExpenses(query)
+        .pipe(map((result) => toPaginatedExpense(result, categories)));
+    if (categories !== null) {
+      return fetchExpenses(categories);
+    } else {
+      return this.getCategories().pipe(
+        switchMap((categories) => fetchExpenses(categories))
+      );
+    }
   }
 
-  getExpenseById(id: string): Observable<ExpenseDto> {
-    return this.httpService.getExpenseById(id);
+  getExpenseById(
+    id: string,
+    categories: Category[] | null
+  ): Observable<Expense> {
+    const fetchExpense = (categories: Category[]) =>
+      this.expensesHttpService
+        .getExpenseById(id)
+        .pipe(map((result) => toExpense(result, categories)));
+    if (categories !== null) {
+      return fetchExpense(categories);
+    } else {
+      return this.getCategories().pipe(
+        switchMap((categories) => fetchExpense(categories))
+      );
+    }
   }
 
   checkExpenseUniqueness(
     query: CheckExpenseUniquenessQueryDto
   ): Observable<boolean> {
-    return this.httpService.checkExpenseUniqueness(query);
+    return this.expensesHttpService.checkExpenseUniqueness(query);
   }
 
   createExpenses(
     request: CreateExpenseBodyDto
   ): Observable<CreateExpenseResultDto> {
-    return this.httpService.createExpense(request).pipe(
+    return this.expensesHttpService.createExpense(request).pipe(
       catchError((err) => {
         if (!(err instanceof HttpErrorResponse)) {
           return throwError(() => err);
@@ -68,7 +98,7 @@ export class ExpenseRepositoryService {
   }
 
   editExpense(id: string, body: EditExpenseBodyDto): Observable<void> {
-    return this.httpService.editExpense(id, body).pipe(
+    return this.expensesHttpService.editExpense(id, body).pipe(
       catchError((err) => {
         if (!(err instanceof HttpErrorResponse)) {
           return throwError(() => err);
@@ -86,7 +116,7 @@ export class ExpenseRepositoryService {
   }
 
   deleteExpense(id: string): Observable<void> {
-    return this.httpService.deleteExpense(id).pipe(
+    return this.expensesHttpService.deleteExpense(id).pipe(
       catchError((err) => {
         if (!(err instanceof HttpErrorResponse)) {
           return throwError(() => err);
@@ -104,7 +134,7 @@ export class ExpenseRepositoryService {
   }
 
   submitExpense(id: string): Observable<void> {
-    return this.httpService.submitExpense(id).pipe(
+    return this.expensesHttpService.submitExpense(id).pipe(
       catchError((err) => {
         if (!(err instanceof HttpErrorResponse)) {
           return throwError(() => err);
