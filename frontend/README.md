@@ -1,81 +1,163 @@
-# N2F
+﻿# DOCUMENTATION
 
-<a alt="Nx logo" href="https://nx.dev" target="_blank" rel="noreferrer"><img src="https://raw.githubusercontent.com/nrwl/nx/master/images/nx-logo.png" width="45"></a>
+## How to
 
-✨ Your new, shiny [Nx workspace](https://nx.dev) is almost ready ✨.
+### Serve
 
-[Learn more about this workspace setup and its capabilities](https://nx.dev/getting-started/tutorials/angular-standalone-tutorial?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) or run `npx nx graph` to visually explore what was created. Now, let's get you up to speed!
+Run `npx nx run n2f:serve`
 
-## Finish your CI setup
+### Test
 
-[Click here to finish setting up your workspace!](https://cloud.nx.app/connect/kO9WqPbIRV)
+Run `npx nx run n2f:test`
 
-## Run tasks
 
-To run the dev server for your app, use:
+## Features
 
-```sh
-npx nx serve n2f
+### Architecture
+
+The application is a SPA organized using DDD principles.
+
+```
+app/                        
+    core/                        # auth, global config, interceptors, logging
+    features/
+      feature/
+        data-access/             # API clients, DTOs, error mapping
+        domain/                  # models, repository, facade, stores
+        shared/                  # feature-scoped ui components, utils, pipes, validators...   
+        **/                      # feature-scoped sub-features
+      shared/
 ```
 
-To create a production bundle:
+This architecture allows for clean boundaries and makes it easy to extend, and possibly to transition to a MFE architecture.
+In fact as a MFE the app could have the following structure :
 
-```sh
-npx nx build n2f
+```
+apps/
+  shell/                        # maps to "/dashboard" in the current architecture
+  mfe-login/
+  mfe-expense/
+packages/
+  core/
+  ui/
+  util/
+  user/
 ```
 
-To see all available targets to run for a project, run:
+One advantage is that each app would only import packages they are authorized to as per their manifests.
 
-```sh
-npx nx show project n2f
-```
+#### Services & stores
 
-These targets are either [inferred automatically](https://nx.dev/concepts/inferred-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) or defined in the `project.json` or `package.json` files.
+The app showcases four main kind of services:
+- API (or http) services, which reflect the backend API
+- Repository services which map DTO models to Domain models
+- Stores which hold state relevant for different use cases of the feature
+- Facade services, which expose functionalities to the other feature consumers (components and resolvers mainly)
 
-[More about running tasks in the docs &raquo;](https://nx.dev/features/run-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+Below is the dependency graph between these services:
 
-## Add new projects
+![DDD_services](./doc/DDD_services.drawio.png)
 
-While you could add new projects to your workspace manually, you might want to leverage [Nx plugins](https://nx.dev/concepts/nx-plugins?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) and their [code generation](https://nx.dev/features/generate-code?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) feature.
+Facade, API(http), and repository services are designed stateless, or relay state that they do not own themselves.
 
-Use the plugin's generator to create new projects.
+State is managed by stores.
 
-To generate a new application, use:
+Stores are scoped to their module (feature) to enforce domain boundaries. Yet, because the stores still live when their injector is destroyed (such as when navigating out of the module),
+the data still lives and will be reused later should the user navigates back to that module. This is the case for Category data.
 
-```sh
-npx nx g @nx/angular:app demo
-```
+On logout, Stores that are scoped to a session are invalidated to avoid stale data (e.g. the user accessing expenses from the previous user).
 
-To generate a new library, use:
+### Auth
 
-```sh
-npx nx g @nx/angular:lib mylib
-```
+This application does not have authentication per se, but it scopes navigation to the currently active User. 
+Activating a user is done in the "login screen", by picking one of the users provided by the backend.
 
-You can use `npx nx list` to get a list of installed plugins. Then, run `npx nx list <plugin-name>` to learn about more specific capabilities of a particular plugin. Alternatively, [install Nx Console](https://nx.dev/getting-started/editor-setup?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) to browse plugins and generators in your IDE.
+Current user is stored in local storage until logout, to allow for a more seamless experience, and to showcase route guards.
 
-[Learn more about Nx plugins &raquo;](https://nx.dev/concepts/nx-plugins?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) | [Browse the plugin registry &raquo;](https://nx.dev/plugin-registry?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+### UI/UX
 
-[Learn more about Nx on CI](https://nx.dev/ci/intro/ci-with-nx#ready-get-started-with-your-provider?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+The UI reflects the business context and the backend capabilities.
 
-## Install Nx Console
+For example, an app shell has been implemented to enable integrating other modules in the future.
 
-Nx Console is an editor extension that enriches your developer experience. It lets you run tasks, generate code, and improves code autocompletion in your IDE. It is available for VSCode and IntelliJ.
+Additionally, since the backend returns paginated and filterable content, the UI showcase filters and a paginator.
 
-[Install Nx Console &raquo;](https://nx.dev/getting-started/editor-setup?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+The interface is also responsive and accessible:
+- the layout uses flex contents that shrink and grow as needed
+- interactable components are clearly recognizable via their hover/focus behavior
+- keyboard navigation is supported
+- the side menu collapses automatically under certain viewport dimensions
+- consistent UI rules: theme, primary & secondary components
+- notifications following any form submissions and errors
+- loading state being tracked and displayed properly
 
-## Useful links
+### Data flow
 
-Learn more:
+Business rules indicate that the user owns the mutation of the data. As a result, eagerly fetching data on page load is 
+not always necessary to display a consistent UI, and the app can dictate when to refresh its data based on the user actions.
 
-- [Learn more about this workspace setup](https://nx.dev/getting-started/tutorials/angular-standalone-tutorial?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [Learn about Nx on CI](https://nx.dev/ci/intro/ci-with-nx?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [Releasing Packages with Nx release](https://nx.dev/features/manage-releases?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [What are Nx plugins?](https://nx.dev/concepts/nx-plugins?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+Managing data involve managing domain data (Category, Expense, User), and data related to the view's state.
 
-And join the Nx community:
+Two core decisions have been made on this topic:
 
-- [Discord](https://go.nx.dev/community)
-- [Follow us on X](https://twitter.com/nxdevtools) or [LinkedIn](https://www.linkedin.com/company/nrwl)
-- [Our Youtube channel](https://www.youtube.com/@nxdevtools)
-- [Our blog](https://nx.dev/blog?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+#### Storing Categories
+
+Category data is needed across the whole Expense feature:
+- in the dashboard listing all expenses, as a filter parameter, and to be displayed along an expense;
+- in the detailed view of an expense;
+- in the creation/update form.
+
+It is safe to assume categories are not volatile data;
+- current backend only supports read operations on Category;
+- Category is effectively admin data; end users do not mutate them.
+
+As a result, Categories are loaded only once during the app lifecycle and stored for subsequent uses.
+
+#### Storing the View's state
+
+The ExpenseListViewStore only purpose is to allow the state of the ExpenseList page's view to survive navigation.
+
+For example, it allows the user to view an expense's details, or navigate to another module, then navigate back to the
+expenses dashboard and view it as it was when he left the page, and without fetching data. 
+
+### User flow
+
+The flow chart below describes a typical user experience.
+
+![User flow](./doc/User_flow.drawio.png)
+
+#### Login
+
+When the user logs in, its identity is stored in the local storage so that subsequent loading of the application allow accessing the inner modules directly
+
+#### Expense-forms
+
+When an expense is mutated (either by creation, edition, deletion or status update), it can either succeed or fail.
+
+If it succeeds, the system:
+- Notifies the user about success;
+- Invalidates the ExpenseListViewStore;
+- Navigates to Expense-list.
+
+If it fails, the system:
+- Notifies the user about the error;
+- Navigates to Expense-list, except for creation to give the user a chance to correct the form data.
+
+#### Logout
+
+On logout, all session scoped data are flushed (Identity, Expense-list page state), and the user is redirected to the login screen.
+
+### Testing
+
+Even though TDD was the initial approach and produced overall ~30 relevant tests, it became clear fast that a full test coverage would not be possible within the allocated time frame;
+
+### Improvements
+
+The improvements I consider:
+- the project could leverage OpenAPI to generate client and models from the backend, or from a RAML. It would reduce boilerplate code, while ensuring both backend and frontend APIs are synchronized;
+- enforce domain boundaries by migrating to a MFE architecture;
+- increase testing coverage (components in particular).
+- preparing and implementing translation: UI strings could be replaced with Maps keys, and translated dynamically using the lib ngx-translate for instance;
+- using OnPush strategy: while the Signal API makes it less relevant, it can still help to improve performance for large scale application
+- extract common logic from create and edit form components, as some logic is almost duplicated;
+- more consistent style rules: spacing in particular
