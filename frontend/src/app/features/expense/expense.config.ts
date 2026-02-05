@@ -1,5 +1,5 @@
 ﻿import { EnvironmentProviders, makeEnvironmentProviders } from "@angular/core";
-import { ExpenseViewStore } from "./domain/store/expense-view-store.service";
+import { ExpenseListViewStore } from "./domain/store/expense-view-store.service";
 import { ExpenseRepositoryService } from "./domain/expense-repository.service";
 import { CategoryStore } from "./domain/store/category.store";
 import { ExpenseService } from "./expense-service";
@@ -8,7 +8,7 @@ import { UniqueExpenseDateValidator } from "./expense-create/unique-expense-date
 
 export function provideExpenses(): EnvironmentProviders {
   return makeEnvironmentProviders([
-    ExpenseViewStore,
+    ExpenseListViewStore,
     CategoryStore,
     ExpenseRepositoryService,
     ExpenseService,

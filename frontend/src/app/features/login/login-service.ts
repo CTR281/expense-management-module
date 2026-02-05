@@ -1,5 +1,5 @@
 import { inject, Injectable, signal } from "@angular/core";
-import { UserService } from "../user/domain/user.service";
+import { UserRepositoryService } from "../user/domain/user-repository.service";
 import { User } from "../user/domain/user.model";
 import { catchError, EMPTY, finalize, Observable } from "rxjs";
 import { AuthService } from "../../core/auth/auth.service";
@@ -8,7 +8,7 @@ import { NotificationService } from "../../core/notification/notification-servic
 
 @Injectable()
 export class LoginService {
-  private readonly userService = inject(UserService);
+  private readonly userService = inject(UserRepositoryService);
   private readonly authService = inject(AuthService);
   private readonly router = inject(Router);
   private readonly notificationService = inject(NotificationService);

@@ -8,7 +8,7 @@ import {
 import { catchError, map, Observable, switchMap, tap, throwError } from "rxjs";
 import { CreateExpenseResultDto } from "./data-access/models/create-expense/create-expense-result.dto";
 import { NotificationService } from "../../core/notification/notification-service";
-import { ExpenseViewStore } from "./domain/store/expense-view-store.service";
+import { ExpenseListViewStore } from "./domain/store/expense-view-store.service";
 import { CategoryStore } from "./domain/store/category.store";
 import { Category } from "./domain/models/category.model";
 import { Expense, toExpense } from "./domain/models/expense.model";
@@ -31,7 +31,7 @@ export class ExpenseService {
   private readonly authService = inject(AuthService);
   private readonly expenseRepositoryService = inject(ExpenseRepositoryService);
   private readonly notificationService = inject(NotificationService);
-  private readonly expenseViewStore = inject(ExpenseViewStore);
+  private readonly expenseListViewStore = inject(ExpenseListViewStore);
   private readonly categoryStore = inject(CategoryStore);
   private readonly router = inject(Router);
 
@@ -41,18 +41,18 @@ export class ExpenseService {
   };
 
   readonly expensesState: StoreState<Paginated<Expense>> = {
-    data: this.expenseViewStore.expenses,
-    loading: this.expenseViewStore.loading,
+    data: this.expenseListViewStore.expenses,
+    loading: this.expenseListViewStore.loading,
   };
 
-  readonly filters: Signal<ExpenseFilters> = this.expenseViewStore.filters;
+  readonly filters: Signal<ExpenseFilters> = this.expenseListViewStore.filters;
 
   updateFilters(patch: Partial<ExpenseFilters>) {
-    this.expenseViewStore.setFilters({
-      ...this.expenseViewStore.filters(),
+    this.expenseListViewStore.setFilters({
+      ...this.expenseListViewStore.filters(),
       ...patch,
     });
-    this.expenseViewStore.load().subscribe({
+    this.expenseListViewStore.load().subscribe({
       error: () => this.notificationService.error("Failed to load expenses."),
     });
   }
@@ -62,7 +62,7 @@ export class ExpenseService {
   }
 
   loadExpenses(): Observable<Paginated<Expense>> {
-    return this.expenseViewStore.load();
+    return this.expenseListViewStore.load();
   }
 
   loadExpense(id: string): Observable<Expense> {
@@ -100,7 +100,7 @@ export class ExpenseService {
         }),
         tap(() => {
           this.notificationService.success("Expense created successfully.");
-          this.expenseViewStore.invalidate();
+          this.expenseListViewStore.invalidate();
         })
       );
   }
@@ -112,14 +112,14 @@ export class ExpenseService {
         catchError((err) => {
           this.notificationService.error("Could not edit expense.");
           if (err instanceof NotFoundError || err instanceof BadRequestError) {
-            this.expenseViewStore.invalidate();
+            this.expenseListViewStore.invalidate();
             this.router.navigate(["/expenses"]);
           }
           return throwError(() => err);
         }),
         tap(() => {
           this.notificationService.success("Expense updated successfully.");
-          this.expenseViewStore.invalidate();
+          this.expenseListViewStore.invalidate();
         })
       );
   }
@@ -129,14 +129,14 @@ export class ExpenseService {
       catchError((err) => {
         this.notificationService.error("Could not delete expense.");
         if (err instanceof NotFoundError || err instanceof BadRequestError) {
-          this.expenseViewStore.invalidate();
+          this.expenseListViewStore.invalidate();
           this.router.navigate(["/expenses"]);
         }
         return throwError(() => err);
       }),
       tap(() => {
         this.notificationService.success("Expense deleted successfully.");
-        this.expenseViewStore.invalidate();
+        this.expenseListViewStore.invalidate();
       })
     );
   }
@@ -146,14 +146,14 @@ export class ExpenseService {
       catchError((err) => {
         this.notificationService.error("Could not submit expense.");
         if (err instanceof NotFoundError) {
-          this.expenseViewStore.invalidate();
+          this.expenseListViewStore.invalidate();
           this.router.navigate(["/expenses"]);
         }
         return throwError(() => err);
       }),
       tap(() => {
         this.notificationService.success("Expense submitted successfully.");
-        this.expenseViewStore.invalidate();
+        this.expenseListViewStore.invalidate();
       })
     );
   }

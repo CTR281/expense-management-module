@@ -8,7 +8,7 @@ import { UserDto } from "../data-access/user.dto";
 @Injectable({
   providedIn: "root",
 })
-export class UserService {
+export class UserRepositoryService {
   private readonly userHttpService = inject(UserHttpService);
 
   /**

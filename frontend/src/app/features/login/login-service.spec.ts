@@ -2,7 +2,7 @@ import { TestBed } from "@angular/core/testing";
 
 import { LoginService } from "./login-service";
 import { AuthService } from "../../core/auth/auth.service";
-import { UserService } from "../user/domain/user.service";
+import { UserRepositoryService } from "../user/domain/user-repository.service";
 import { mockUser, mockUsers } from "../../../testing/user.mock";
 import { EMPTY, finalize, of, throwError } from "rxjs";
 import { NotificationService } from "../../core/notification/notification-service";
@@ -12,7 +12,7 @@ import { Router } from "@angular/router";
 describe("LoginService", () => {
   let service: LoginService;
   let authService: AuthService;
-  let userService: UserService;
+  let userService: UserRepositoryService;
   let notificationService: NotificationService;
   let router: Router;
 
@@ -22,7 +22,7 @@ describe("LoginService", () => {
     });
     service = TestBed.inject(LoginService);
     authService = TestBed.inject(AuthService);
-    userService = TestBed.inject(UserService);
+    userService = TestBed.inject(UserRepositoryService);
     notificationService = TestBed.inject(NotificationService);
     router = TestBed.inject(Router);
   });

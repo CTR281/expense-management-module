@@ -13,7 +13,9 @@ import {
 } from "../models/expense-view.model";
 
 @Injectable()
-export class ExpenseViewStore extends SessionScopedStore<Paginated<Expense>> {
+export class ExpenseListViewStore extends SessionScopedStore<
+  Paginated<Expense>
+> {
   private static readonly INIT_FILTERS = {
     page: 1,
     pageSize: 10,
@@ -23,7 +25,7 @@ export class ExpenseViewStore extends SessionScopedStore<Paginated<Expense>> {
 
   private readonly _expenses = signal<Paginated<Expense> | null>(null);
   private readonly _filters = signal<ExpenseFilters>(
-    ExpenseViewStore.INIT_FILTERS
+    ExpenseListViewStore.INIT_FILTERS
   );
   private readonly _loading = signal<boolean>(false);
 
@@ -46,13 +48,14 @@ export class ExpenseViewStore extends SessionScopedStore<Paginated<Expense>> {
 
   reset() {
     this._expenses.set(null);
-    this._filters.set(ExpenseViewStore.INIT_FILTERS);
+    this._filters.set(ExpenseListViewStore.INIT_FILTERS);
   }
 
   protected fetch() {
     this._loading.set(true);
 
     return this.categoriesStore.load().pipe(
+      // move to repo (with categories as optional input)
       switchMap((categories) =>
         this.expenseRepositoryService
           .getExpenses(

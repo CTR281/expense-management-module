@@ -1,19 +1,19 @@
 import { TestBed } from "@angular/core/testing";
 
-import { UserService } from "./user.service";
+import { UserRepositoryService } from "./user-repository.service";
 import { UserHttpService } from "../data-access/user-http.service";
 import { firstValueFrom, of } from "rxjs";
 import { provideHttpClient } from "@angular/common/http";
 import { mockUsers } from "../../../../testing/user.mock";
 import { mockUsersDto } from "../../../../testing/user-dto.mock";
 
-describe("UserService", () => {
-  let service: UserService;
+describe("UserRepositoryService", () => {
+  let service: UserRepositoryService;
   let httpService: UserHttpService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({ providers: [provideHttpClient()] });
-    service = TestBed.inject(UserService);
+    service = TestBed.inject(UserRepositoryService);
     httpService = TestBed.inject(UserHttpService);
   });
 
