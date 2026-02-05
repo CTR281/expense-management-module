@@ -24,7 +24,7 @@ import { IsEditablePipe } from "../expense-edit/is-editable.pipe";
   },
 })
 export class ExpenseDetails {
-  @Input() expense: Expense; // resolved in route
+  @Input({ required: true }) expense!: Expense; // resolved in route
 
   submitting = signal<boolean>(false);
 

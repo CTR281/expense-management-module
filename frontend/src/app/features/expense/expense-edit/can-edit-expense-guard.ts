@@ -8,7 +8,7 @@ export const canEditExpenseGuard: CanActivateFn = (route) => {
   const isEditablePipe = inject(IsEditablePipe);
   const router = inject(Router);
   return inject(ExpenseService)
-    .loadExpense(route.paramMap.get("id"))
+    .loadExpense(route.paramMap.get("id") as string)
     .pipe(
       map((expense) => {
         if (!isEditablePipe.transform(expense))

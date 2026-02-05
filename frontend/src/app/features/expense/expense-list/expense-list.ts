@@ -5,6 +5,8 @@ import { ExpenseCard } from "./expense-card/expense-card";
 import { ExpenseFilters } from "./expense-filters/expense-filters";
 import { ExpensePagination } from "./expense-pagination/expense-pagination";
 import { NotEmptyPipe } from "../../../shared/util/not-empty-pipe";
+import { Paginated } from "../domain/models/expense-view.model";
+import { Expense } from "../domain/models/expense.model";
 
 @Component({
   selector: "app-expense-list",
@@ -29,7 +31,9 @@ export class ExpenseList {
   readonly categoriesState = this.expenseService.categoriesState;
 
   readonly expenses = computed(() =>
-    this.expensesState.data() ? this.expensesState.data().data : []
+    this.expensesState.data()
+      ? (this.expensesState.data() as Paginated<Expense>).data
+      : []
   );
 
   navigateToDetails(id: string): void {

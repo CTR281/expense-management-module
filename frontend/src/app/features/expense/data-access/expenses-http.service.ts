@@ -1,10 +1,8 @@
 import { inject, Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { Observable } from "rxjs";
-import { GetCategoriesQueryDto } from "./models/get-categories/get-categories-query.dto";
 import { GetExpensesQueryDto } from "./models/get-expenses/get-expenses-query.dto";
 import { toHttpParams } from "../../../shared/util/http";
-import { GetCategoriesResultDto } from "./models/get-categories/get-categories-result.dto";
 import { GetExpensesResultDto } from "./models/get-expenses/get-expenses-result.dto";
 import { CreateExpenseBodyDto } from "./models/create-expense/create-expense-body.dto";
 import { CreateExpenseResultDto } from "./models/create-expense/create-expense-result.dto";
@@ -12,18 +10,9 @@ import { GetExpenseByIdResultDto } from "./models/get-expense-by-id/get-expense-
 import { EditExpenseBodyDto } from "./models/edit-expense/edit-expense-body";
 import { CheckExpenseUniquenessQueryDto } from "./models/check-expense-uniqueness/check-expense-uniqueness-query.dto";
 
-@Injectable({
-  providedIn: "root",
-})
+@Injectable()
 export class ExpensesHttpService {
   private readonly http = inject(HttpClient);
-
-  getCategories(
-    query?: GetCategoriesQueryDto
-  ): Observable<GetCategoriesResultDto> {
-    const params = toHttpParams(query);
-    return this.http.get<GetCategoriesResultDto>(`/categories`, { params });
-  }
 
   getExpenses(query: GetExpensesQueryDto): Observable<GetExpensesResultDto> {
     const params = toHttpParams(query);

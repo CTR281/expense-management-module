@@ -3,7 +3,7 @@
 export function toHttpParams<T extends Record<string, any>>(
   query?: T
 ): HttpParams {
-  if (!query) return;
+  if (!query) return new HttpParams();
   return new HttpParams({
     fromObject: Object.fromEntries(
       Object.entries(query).filter(([, value]) => value !== undefined)

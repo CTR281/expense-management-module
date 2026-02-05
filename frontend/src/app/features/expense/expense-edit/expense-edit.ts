@@ -10,6 +10,7 @@ import {
 } from "@angular/forms";
 import { CURRENCY_CODE } from "../domain/models/currency";
 import { Expense } from "../domain/models/expense.model";
+import { EditExpenseCommand } from "../domain/models/edit-expense-command.model";
 
 @Component({
   selector: "app-expense-edit",
@@ -21,7 +22,7 @@ import { Expense } from "../domain/models/expense.model";
   },
 })
 export class ExpenseEdit implements OnInit {
-  @Input() expense: Expense;
+  @Input({ required: true }) expense!: Expense; // resolved in route
   private readonly expenseService = inject(ExpenseService);
   private readonly router = inject(Router);
 
@@ -58,7 +59,10 @@ export class ExpenseEdit implements OnInit {
     this.submitting.set(true);
 
     this.expenseService
-      .editExpense({ ...this.form.getRawValue(), id: this.expense.id })
+      .editExpense({
+        ...this.form.getRawValue(),
+        id: this.expense.id,
+      } as EditExpenseCommand)
       .subscribe({
         next: () => {
           this.router.navigate(["/expenses"]);

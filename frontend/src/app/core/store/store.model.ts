@@ -14,7 +14,7 @@ export interface Store<T> {
 }
 
 export interface StoreState<T> {
-  data: Signal<T>;
+  data: Signal<T | null>;
   loading: Signal<boolean>;
 }
 

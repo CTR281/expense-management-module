@@ -29,7 +29,7 @@ export class AuthService {
     this.router.navigate(["/login"]);
   }
 
-  private loadFromStorage(): User {
+  private loadFromStorage(): User | null {
     const data = localStorage.getItem(AuthService.STORAGE_KEY);
     if (!data) return null;
 

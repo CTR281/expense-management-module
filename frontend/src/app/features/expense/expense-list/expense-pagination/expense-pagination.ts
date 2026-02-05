@@ -17,16 +17,16 @@ export class ExpensePagination {
   readonly loading = this.expenseService.expensesState.loading;
 
   readonly totalPages = computed(
-    () => this.expenseService.expensesState.data().totalPages
+    () => this.expenseService.expensesState.data()?.totalPages
   );
   readonly totalCount = computed(
-    () => this.expenseService.expensesState.data().totalCount
+    () => this.expenseService.expensesState.data()?.totalCount
   );
   readonly hasPreviousPage = computed(
-    () => this.expenseService.expensesState.data().hasPreviousPage
+    () => this.expenseService.expensesState.data()?.hasPreviousPage
   );
   readonly hasNextPage = computed(
-    () => this.expenseService.expensesState.data().hasNextPage
+    () => this.expenseService.expensesState.data()?.hasNextPage
   );
   readonly page = computed(() => this.filters().page);
 

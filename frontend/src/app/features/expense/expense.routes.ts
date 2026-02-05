@@ -37,7 +37,7 @@ const resolveExpenses: ResolveFn<Paginated<Expense>> = () =>
 
 const resolveExpense: ResolveFn<Expense> = (route) => {
   return inject(ExpenseService)
-    .loadExpense(route.paramMap.get("id"))
+    .loadExpense(route.paramMap.get("id") as string)
     .pipe(
       catchError(redirectOnError("Could not load expense.", "/expense-list"))
     );

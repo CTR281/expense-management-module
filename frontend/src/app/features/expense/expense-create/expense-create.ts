@@ -9,6 +9,7 @@ import {
 } from "@angular/forms";
 import { CURRENCY_CODE } from "../domain/models/currency";
 import { UniqueExpenseDateValidator } from "./unique-expense-date-validator.service";
+import { CreateExpenseCommand } from "../domain/models/create-expense-command.model";
 
 @Component({
   selector: "app-expense-create",
@@ -58,12 +59,14 @@ export class ExpenseCreate {
 
     this.submitting.set(true);
 
-    this.expenseService.createExpense(this.form.getRawValue()).subscribe({
-      next: () => {
-        this.router.navigate(["/expenses"]);
-      },
-      error: () => this.submitting.set(false),
-    });
+    this.expenseService
+      .createExpense(this.form.getRawValue() as CreateExpenseCommand)
+      .subscribe({
+        next: () => {
+          this.router.navigate(["/expenses"]);
+        },
+        error: () => this.submitting.set(false),
+      });
   }
 
   back(): void {

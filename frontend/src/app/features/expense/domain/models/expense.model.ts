@@ -21,7 +21,9 @@ export function toExpense(
     ownerId: expense.ownerId,
     amount: expense.amount,
     currencyCode: expense.currencyCode,
-    category: categories.find((category) => category.id === expense.categoryId),
+    category: categories.find(
+      (category) => category.id === expense.categoryId
+    ) as Category, // as per backend design the category cannot be missing
     isSubmitted: expense.isSubmitted,
   };
 }

@@ -16,7 +16,7 @@ export class CategoryStore implements Store<Category[]> {
 
   load(): Observable<Category[]> {
     if (this._categories()) {
-      return of(this._categories());
+      return of(this._categories() as Category[]);
     }
     return this.fetch();
   }
