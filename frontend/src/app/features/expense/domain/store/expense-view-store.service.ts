@@ -14,14 +14,17 @@ import {
 
 @Injectable()
 export class ExpenseViewStore extends SessionScopedStore<Paginated<Expense>> {
+  private static readonly INIT_FILTERS = {
+    page: 1,
+    pageSize: 10,
+  };
   private readonly expenseRepositoryService = inject(ExpenseRepositoryService);
   private readonly categoriesStore = inject(CategoryStore);
 
   private readonly _expenses = signal<Paginated<Expense> | null>(null);
-  private readonly _filters = signal<ExpenseFilters>({
-    page: 1,
-    pageSize: 10,
-  });
+  private readonly _filters = signal<ExpenseFilters>(
+    ExpenseViewStore.INIT_FILTERS
+  );
   private readonly _loading = signal<boolean>(false);
 
   readonly expenses = this._expenses.asReadonly();
@@ -43,6 +46,7 @@ export class ExpenseViewStore extends SessionScopedStore<Paginated<Expense>> {
 
   reset() {
     this._expenses.set(null);
+    this._filters.set(ExpenseViewStore.INIT_FILTERS);
   }
 
   protected fetch() {
