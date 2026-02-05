@@ -1,29 +1,32 @@
-<div class="min-h-screen flex flex-col items-center justify-center bg-gray-100">
-    @let users = users$ | async;
-    @if(loginService.loading()) {
-        <div class="flex justify-center py-8 text-gray-500">
-            Loading users...
-        </div>
-    }@else {
-        <div class="w-full max-w-2xl p-4">
-            <h1 class="mb-6 text-center text-xl font-medium text-gray-700">Pick the user to log as:</h1>
-        </div>
-        <!-- User list -->
-        <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
-            @for (user of users; track user.id) {
-                <button
-                        type="button"
-                        (click)="loginService.login(user)"
-                        class="card text-left group"
+<div
+        class="min-h-screen flex flex-col items-center justify-center bg-gray-100"
+>
+    @let users = users$ | async; @if(loginService.loading()) {
+    <div class="flex justify-center py-8 text-gray-500">Loading users...</div>
+}@else {
+    <div class="w-full max-w-2xl p-4">
+        <h1 class="mb-6 text-center text-xl font-medium text-gray-700">
+            Pick the user to log as:
+        </h1>
+    </div>
+    <!-- User list -->
+    <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+        @for (user of users; track user.id) {
+            <button
+                    type="button"
+                    (click)="loginService.login(user)"
+                    class="card text-left group"
+            >
+                <p
+                        class="text-base font-semibold text-gray-900 group-hover:text-[var(--color-app-primary)]"
                 >
-                    <p class="text-base font-semibold text-gray-900 group-hover:text-[var(--color-app-primary)]">
-                        {{ user.fullName }}
-                    </p>
-                    <p class="mt-1 text-sm text-gray-500">
-                        {{ user.id }}
-                    </p>
-                </button>
-            }
-        </div>
-    }
+                    {{ user.fullName }}
+                </p>
+                <p class="mt-1 text-sm text-gray-500">
+                    {{ user.id }}
+                </p>
+            </button>
+        }
+    </div>
+}
 </div>

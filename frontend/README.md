@@ -161,3 +161,4 @@ The improvements I consider:
 - using OnPush strategy: while the Signal API makes it less relevant, it can still help to improve performance for large scale application
 - extract common logic from create and edit form components, as some logic is almost duplicated;
 - more consistent style rules: spacing in particular
+- add an http cache

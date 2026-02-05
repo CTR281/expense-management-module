@@ -12,7 +12,7 @@
     @if(expensesState.loading()) {
         <p>Loading expenses...</p>
     } @else {
-        <div class="flex flex-col gap-2">
+        <div class="flex flex-col gap-2 p-4">
             @for (expense of expenses(); track expense.id) {
                 <app-expense-card [expense]="expense" (click)="navigateToDetails(expense.id)"></app-expense-card>
             }

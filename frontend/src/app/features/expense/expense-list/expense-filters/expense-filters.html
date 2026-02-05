@@ -1,47 +1,37 @@
 <div class="flex flex-wrap items-end gap-4">
     <div class="form-control">
-        <label for="category" class="form-control-label">
-            Category
-        </label>
+        <label for="category" class="form-control-label"> Category </label>
         <select
-            id="category"
-            class="form-control-field"
-            [value]="filters().categoryId ?? ''"
-            (change)="updateCategory($event)"
+                id="category"
+                class="form-control-field"
+                [value]="filters().categoryId ?? ''"
+                (change)="updateCategory($event)"
         >
-            @if(categoriesState.loading()) {
-                    Loading...
-            } @else {
+            @if(categoriesState.loading()) { Loading... } @else {
                 <option value="">All</option>
                 @for(category of categoriesState.data(); track category.id) {
                     <option [value]="category.id">{{ category.name }}</option>
-                }
-            }
+                } }
         </select>
     </div>
     <div class="form-control">
-        <label for="from" class="form-control-label">
-            From
-        </label>
+        <label for="from" class="form-control-label"> From </label>
         <input
-            id="from"
-            type="date"
-            class="form-control-field"
-            [value]="filters().fromDate"
-            (change)="updateFromDate($event)"
+                id="from"
+                type="date"
+                class="form-control-field"
+                [value]="filters().fromDate"
+                (change)="updateFromDate($event)"
         />
     </div>
     <div class="form-control">
-        <label for="to" class="form-control-label">
-            To
-        </label>
+        <label for="to" class="form-control-label"> To </label>
         <input
-            id="to"
-            type="date"
-            class="form-control-field"
-            [value]="filters().toDate"
-            (change)="updateToDate($event)"
+                id="to"
+                type="date"
+                class="form-control-field"
+                [value]="filters().toDate"
+                (change)="updateToDate($event)"
         />
     </div>
 </div>
-

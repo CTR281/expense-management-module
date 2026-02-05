@@ -1,9 +1,18 @@
 <div class="flex items-center mb-6 p-2 gap-4">
-    <button class="icon-button" (click)="toggle()" aria-label="Toggle navigation">
+    <button
+            class="icon-button"
+            (click)="toggle()"
+            aria-label="Toggle navigation"
+    >
         <app-icon-burger-menu></app-icon-burger-menu>
     </button>
     @if(!isCollapsed()) {
-        <h1 class="text-2xl font-semi-bold text-[var(color-font-primary)] text-wrap transition-opacity" animate.enter="enter-animation" >{{PAGE_TITLE()}}</h1> <!-- TODO: replace with injector -->
+        <h1
+                class="text-2xl font-semi-bold text-[var(color-font-primary)] text-wrap transition-opacity"
+                animate.enter="enter-animation"
+        >
+            {{ PAGE_TITLE() }}
+        </h1>
     }
 </div>
 <nav class="flex flex-col gap-2 mb-6 flex-1">
@@ -21,7 +30,9 @@
 </nav>
 @if(!isCollapsed()) {
     <div class="mt-auto" animate.enter="enter-animation">
-        <p class="mb-3 text-sm text-gray-600">{{authService.user()?.fullName}}</p>
+        <p class="mb-3 text-sm text-gray-600">
+            {{ authService.user()?.fullName }}
+        </p>
         <button
                 type="button"
                 class="btn-secondary"
@@ -32,10 +43,7 @@
     </div>
 } @else {
     <div class="mt-auto" animate.enter="enter-animation">
-        <button
-            type="button"
-            class="icon-button"
-            (click)="authService.logout()">
+        <button type="button" class="icon-button" (click)="authService.logout()">
             <app-icon-logout></app-icon-logout>
         </button>
     </div>

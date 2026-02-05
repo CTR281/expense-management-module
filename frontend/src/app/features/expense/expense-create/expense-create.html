@@ -1,7 +1,5 @@
 <div class="flex items-center justify-between">
-    <h1 class="page-title">
-        Create a new expense
-    </h1>
+    <h1 class="page-title">Create a new expense</h1>
 </div>
 <form
         class="flex flex-1 flex-col justify-between gap-8"
@@ -10,9 +8,7 @@
 >
     <div class="grid max-w-2xl grid-cols-1 gap-6">
         <div class="form-control">
-            <label for="date" class="form-control-label">
-                Date
-            </label>
+            <label for="date" class="form-control-label"> Date </label>
             <input
                     id="date"
                     type="date"
@@ -21,19 +17,14 @@
             />
             @if (form.controls.date.touched && form.controls.date.invalid) {
                 <p class="form-control-error">
-                    @if (form.controls.date.errors?.['required']) {
-                        Date is required.
-                    }
-                    @if (form.controls.date.errors?.['isUnique']) {
-                        Another expense already exists at that date.
-                    }
+                    @if (form.controls.date.errors?.['required']) { Date is required. }
+                    @if (form.controls.date.errors?.['isUnique']) { Another expense
+                            already exists at that date. }
                 </p>
             }
         </div>
         <div class="form-control">
-            <label for="amount" class="form-control-label">
-                Amount
-            </label>
+            <label for="amount" class="form-control-label"> Amount </label>
             <input
                     id="amount"
                     type="number"
@@ -43,20 +34,15 @@
             />
             @if (form.controls.amount.touched && form.controls.amount.invalid) {
                 <p class="form-control-error">
-                    @if (form.controls.amount.errors?.['required']) {
-                        Amount is required.
-                    }
-                    @if (form.controls.amount.errors?.['min']) {
-                        Amount must be greater than 0.
-                    }
+                    @if (form.controls.amount.errors?.['required']) { Amount is
+                            required. } @if (form.controls.amount.errors?.['min']) { Amount must
+                        be greater than 0. }
                 </p>
             }
         </div>
 
         <div class="form-control">
-            <label for="currency" class="form-control-label">
-                Currency
-            </label>
+            <label for="currency" class="form-control-label"> Currency </label>
             <select
                     id="currency"
                     class="form-control-field"
@@ -68,9 +54,7 @@
         </div>
 
         <div class="form-control">
-            <label for="category" class="form-control-label">
-                Category
-            </label>
+            <label for="category" class="form-control-label"> Category </label>
             <select
                     id="category"
                     class="form-control-field"
@@ -79,28 +63,22 @@
                 <option value="">Select a category</option>
                 @if(categoriesState.loading()) {
                     <option disabled>Loading...</option>
-                } @else {
-                    @for (category of categoriesState.data(); track category.id) {
-                        <option [value]="category.id">
-                            {{ category.name }}
-                        </option>
-                    }
-                }
+                } @else { @for (category of categoriesState.data(); track
+                    category.id) {
+                    <option [value]="category.id">
+                        {{ category.name }}
+                    </option>
+                } }
             </select>
-            @if (form.controls.categoryId.touched && form.controls.categoryId.invalid) {
-                <p class="form-control-error">
-                    Category is required.
-                </p>
+            @if (form.controls.categoryId.touched &&
+            form.controls.categoryId.invalid) {
+                <p class="form-control-error">Category is required.</p>
             }
         </div>
     </div>
 
     <footer class="flex justify-end gap-3 border-t pt-6">
-        <button
-                type="button"
-                class="btn-secondary"
-                (click)="back()"
-        >
+        <button type="button" class="btn-secondary" (click)="back()">
             Cancel
         </button>
 
