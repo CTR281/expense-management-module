@@ -18,7 +18,7 @@ import { NotPipe } from "../../../shared/util/not-pipe";
   templateUrl: "./expense-list.html",
   styleUrl: "./expense-list.css",
   host: {
-    class: "flex flex-col flex-1",
+    class: "flex flex-col flex-1 max-h-full",
   },
 })
 export class ExpenseList {

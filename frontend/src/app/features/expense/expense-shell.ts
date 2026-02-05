@@ -7,7 +7,7 @@ import { PageTitleService } from "../../core/page-title.service";
   template: `<router-outlet></router-outlet>`,
   imports: [RouterOutlet],
   host: {
-    class: "flex flex-col min-h-full",
+    class: "flex flex-col min-h-full h-0",
   },
 })
 export class ExpenseShell {
