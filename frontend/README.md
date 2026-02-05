@@ -162,3 +162,4 @@ The improvements I consider:
 - extract common logic from create and edit form components, as some logic is almost duplicated;
 - more consistent style rules: spacing in particular
 - add an http cache
+- add a canDeactivate guard on creation form
