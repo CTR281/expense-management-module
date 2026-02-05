@@ -1,12 +1,16 @@
+<!-- HEADER -->
 <div class="flex items-center justify-between">
     <h1 class="page-title">Edit expense n°{{ expense.id }}</h1>
 </div>
+
+<!-- FORM -->
 <form
         class="flex flex-1 flex-col justify-between gap-8"
         [formGroup]="form"
         (ngSubmit)="submit()"
 >
     <div class="grid max-w-2xl grid-cols-1 gap-6">
+        <!-- AMOUNT -->
         <div class="form-control">
             <label for="amount" class="form-control-label"> Amount </label>
             <input
@@ -25,6 +29,7 @@
             }
         </div>
 
+        <!-- CURRENCY -->
         <div class="form-control">
             <label for="currency" class="form-control-label"> Currency </label>
             <select
@@ -37,6 +42,7 @@
             </select>
         </div>
 
+        <!-- CATEGORY -->
         <div class="form-control">
             <label for="category" class="form-control-label"> Category </label>
             <select
@@ -61,6 +67,7 @@
         </div>
     </div>
 
+    <!-- ACTIONS -->
     <footer class="flex justify-end gap-3 border-t pt-6">
         <button type="button" class="btn-secondary" (click)="back()">
             Cancel

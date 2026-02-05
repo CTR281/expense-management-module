@@ -2,6 +2,8 @@
 
 ## How to
 
+NOTE: Update app.config to target a different backend (default: local server).
+
 ### Serve
 
 Run `npx nx run n2f:serve`

@@ -1,3 +1,4 @@
+<!-- HEADER - FILTERS & CREATE BUTTON -->
 <div class="flex justify-between gap-4 flex-1">
     <app-expense-filters></app-expense-filters>
     <a
@@ -8,6 +9,7 @@
     </a>
 </div>
 
+<!-- EXPENSE LIST -->
 <div class="flex-18 mt-6 overflow-y-auto max-h-full">
     @if(expensesState.loading()) {
         <p>Loading expenses...</p>
@@ -19,6 +21,8 @@
         </div>
     }
 </div>
+
+<!-- PAGINATION -->
 
 @if(expenses() | notEmpty) {
     <app-expense-pagination class="flex-1 mt-6"></app-expense-pagination>

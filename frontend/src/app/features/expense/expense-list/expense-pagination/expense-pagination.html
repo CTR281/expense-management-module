@@ -1,4 +1,5 @@
 <div class="flex gap-2">
+    <!-- PREVIOUS -->
     <button
             class="btn-secondary w-fit"
             [disabled]="loading() || !hasPreviousPage()"
@@ -6,6 +7,7 @@
     >
         Previous
     </button>
+    <!-- NEXT -->
     <button
             class="btn-secondary w-fit"
             [disabled]="loading() || !hasNextPage()"
@@ -13,6 +15,7 @@
     >
         Next
     </button>
+    <!-- PAGE SIZE -->
     <select
         class="form-control-field"
         [value]="filters().pageSize"
