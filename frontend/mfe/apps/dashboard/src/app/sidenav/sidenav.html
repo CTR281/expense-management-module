@@ -1,0 +1,56 @@
+<div class="flex items-center mb-6 p-2 gap-4">
+    <!-- MENU BUTTON -->
+    <button
+            class="icon-button"
+            (click)="toggle()"
+            aria-label="Toggle navigation"
+    >
+        <app-icon-burger-menu></app-icon-burger-menu>
+    </button>
+    <!-- TITLE -->
+    @if(!isCollapsed()) {
+        <h1
+                class="text-2xl font-semi-bold text-[var(color-font-primary)] text-wrap transition-opacity"
+                animate.enter="enter-animation"
+        >
+            {{ PAGE_TITLE() }}
+        </h1>
+    }
+</div>
+
+<!-- MODULES MENU -->
+<nav class="flex flex-col gap-2 mb-6 flex-1">
+    <a
+            routerLink="/expenses"
+            routerLinkActive="bg-gray-100"
+            class="icon-button flex items-center gap-3 text-sm font-medium text-gray-700"
+            [class.justify-center]="isCollapsed()"
+    >
+        <app-icon-expenses></app-icon-expenses>
+        @if (!isCollapsed()) {
+            <span animate.enter="enter-animation">Expenses</span>
+        }
+    </a>
+</nav>
+
+<!-- IDENTITY -->
+@if(!isCollapsed()) {
+    <div class="mt-auto" animate.enter="enter-animation">
+        <p class="mb-3 text-sm text-gray-600">
+            {{ authService.user()?.fullName }}
+        </p>
+        <button
+                type="button"
+                class="btn-secondary"
+                (click)="authService.logout()"
+        >
+            Logout
+        </button>
+    </div>
+} @else {
+    <div class="mt-auto" animate.enter="enter-animation">
+        <button type="button" class="icon-button" (click)="authService.logout()">
+            <app-icon-logout></app-icon-logout>
+        </button>
+    </div>
+}
