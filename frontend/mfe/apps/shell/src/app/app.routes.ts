@@ -1,4 +1,12 @@
-import { NxWelcome } from './nx-welcome';
 import { Route } from '@angular/router';
 
-export const appRoutes: Route[] = [];
+export const appRoutes: Route[] = [
+  {
+    path: 'login',
+    loadChildren: () => import('login/Routes'),
+  },
+  {
+    path: '**',
+    redirectTo: 'login',
+  },
+];
