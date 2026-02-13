@@ -1,0 +1,14 @@
+<div class="fixed top-4 right-4 z-50 space-y-2">
+    @for (notification of notificationService.notifications(); track notification.id) {
+        <div
+                class="flex items-center justify-between gap-6 max-w-sm rounded-lg px-4 py-3 shadow-md text-sm text-white transition"
+                [class.bg-red-600]="notification.type === 'error'"
+                [class.bg-green-600]="notification.type === 'success'"
+        >
+            {{ notification.message }}
+            <button class="icon-button" (click)="notificationService.remove(notification.id)" aria-label="Close notification">
+                <app-icon-close></app-icon-close>
+            </button>
+        </div>
+    }
+</div>

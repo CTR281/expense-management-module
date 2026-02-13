@@ -1,0 +1,20 @@
+{
+  "name": "notification",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/core/notification/src",
+  "prefix": "lib",
+  "projectType": "library",
+  "tags": ["scope:shared", "type:core", "layer:app"],
+  "targets": {
+    "test": {
+      "executor": "@nx/vitest:test",
+      "outputs": ["{options.reportsDirectory}"],
+      "options": {
+        "reportsDirectory": "../../../coverage/libs/core/notification"
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint"
+    }
+  }
+}

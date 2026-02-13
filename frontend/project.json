@@ -8,7 +8,7 @@
   "tags": [],
   "targets": {
     "build": {
-      "executor": "@angular/build:application",
+      "executor": "@nx/angular:webpack-browser",
       "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/n2f",
@@ -21,7 +21,10 @@
             "input": "public"
           }
         ],
-        "styles": ["./src/styles.css"]
+        "styles": ["./src/styles.css"],
+        "customWebpackConfig": {
+          "path": "./webpack.config.ts"
+        }
       },
       "configurations": {
         "production": {

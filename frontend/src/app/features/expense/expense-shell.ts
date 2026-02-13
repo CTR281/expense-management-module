@@ -1,6 +1,6 @@
 ﻿import { Component, inject } from "@angular/core";
 import { RouterOutlet } from "@angular/router";
-import { PageTitleService } from "../../core/page-title.service";
+import { PageTitleService } from "../dashboard/page-title.service";
 
 @Component({
   selector: "app-expense-shell",

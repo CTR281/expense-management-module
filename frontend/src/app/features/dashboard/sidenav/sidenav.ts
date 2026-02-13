@@ -4,7 +4,7 @@ import { RouterLink, RouterLinkActive } from "@angular/router";
 import { IconBurgerMenu } from "../../../shared/ui/icons/icon-burger-menu";
 import { IconExpenses } from "../../../shared/ui/icons/icon-expenses";
 import { IconLogout } from "../../../shared/ui/icons/icon-logout";
-import { PageTitleService } from "../../../core/page-title.service";
+import { PageTitleService } from "../page-title.service";
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
