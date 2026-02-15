@@ -1,0 +1,3 @@
+﻿export enum SUBMIT_EXPENSE_ERRORS {
+  NOT_FOUND = 404,
+}

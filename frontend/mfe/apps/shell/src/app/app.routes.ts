@@ -1,7 +1,7 @@
 import { Route } from '@angular/router';
 import { Dashboard } from './dashboard/dashboard.component';
 import { Home } from './dashboard/home/home';
-import { PageTitleService } from '../../../../libs/core/page-title/src/lib/page-title/page-title.service';
+import { PageTitleService } from '@mfe/page-title';
 
 export const appRoutes: Route[] = [
   {
@@ -16,6 +16,11 @@ export const appRoutes: Route[] = [
       {
         path: '',
         component: Home,
+      },
+      {
+        path: 'expenses',
+        loadChildren: () =>
+          import('expense/Routes'),
       },
       {
         path: '**',

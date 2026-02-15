@@ -1,0 +1,34 @@
+<!-- HEADER - FILTERS & CREATE BUTTON -->
+<div class="flex justify-between gap-4 flex-1">
+    <app-expense-filters></app-expense-filters>
+    <a
+            routerLink="/expenses/new"
+            class="btn-primary w-fit h-fit text-center"
+    >
+        New Expense
+    </a>
+</div>
+
+<!-- EXPENSE LIST -->
+<div class="flex-18 mt-6 overflow-y-auto max-h-full">
+    @if(expensesState.loading()) {
+        <p>Loading expenses...</p>
+    } @else {
+        @let data = expenses();
+        @if(data | notEmpty) {
+            <div class="flex flex-col gap-2 p-4">
+                @for (expense of data; track expense.id) {
+                    <app-expense-card [expense]="expense" (click)="navigateToDetails(expense.id)"></app-expense-card>
+                }
+            </div>
+        } @else {
+            <p>No expenses matching filters.</p>
+        }
+    }
+</div>
+
+<!-- PAGINATION -->
+
+@if(expenses() | notEmpty) {
+    <app-expense-pagination class="flex-1 mt-6"></app-expense-pagination>
+}

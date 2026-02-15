@@ -22,7 +22,10 @@
       "@mfe/auth": ["libs/core/auth/src/index.ts"],
       "@mfe/user": ["libs/user/src/index.ts"],
       "login/Routes": ["apps/login/src/app/remote-entry/entry.routes.ts"],
-      "@mfe/page-title": ["libs/core/page-title/src/index.ts"]
+      "@mfe/page-title": ["libs/core/page-title/src/index.ts"],
+      "expense/Routes": ["apps/expense/src/app/remote-entry/entry.routes.ts"],
+      "@mfe/utils": ["libs/shared/utils/src/index.ts"],
+      "@mfe/store": ["libs/core/store/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

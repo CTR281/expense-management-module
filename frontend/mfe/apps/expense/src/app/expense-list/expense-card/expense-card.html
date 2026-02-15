@@ -1,0 +1,21 @@
+<div class="flex items-center justify-between">
+      <span class="text-sm font-medium text-gray-800">
+        {{ expense().category.name }}
+      </span>
+    <app-status-badge
+            [isSubmitted]="expense().isSubmitted"
+    ></app-status-badge>
+</div>
+
+<!-- Amount -->
+<div class="mt-2 text-2xl font-semibold text-gray-900">
+    {{ expense().amount | number : "1.2-2" }}
+    <span class="text-base text-gray-600">
+        {{ expense().currencyCode }}
+      </span>
+</div>
+
+<!-- Date -->
+<div class="mt-1 text-sm text-gray-500">
+    {{ expense().date | date : "mediumDate" }}
+</div>
