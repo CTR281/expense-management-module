@@ -2,7 +2,7 @@
 import { ResolverLoadingService } from './resolver-loading.service';
 
 @Component({
-  selector: 'lib-loading',
+  selector: 'mfe-loading',
   template: `@if (loading()) {
     <div
       class="fixed inset-0 z-[10000] flex items-center justify-center bg-black/30"

@@ -18,7 +18,6 @@
       "@mfe/http": ["libs/core/http/src/index.ts"],
       "@mfe/notification": ["libs/core/notification/src/index.ts"],
       "@mfe/errors": ["libs/shared/errors/src/index.ts"],
-      "@mfe/notification-ui": ["libs/core/notification-ui/src/index.ts"],
       "@mfe/icons": ["libs/shared/ui/icons/src/index.ts"],
       "@mfe/auth": ["libs/core/auth/src/index.ts"],
       "@mfe/user": ["libs/user/src/index.ts"],

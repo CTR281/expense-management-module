@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { RouterModule, RouterOutlet } from '@angular/router';
 import { Loading } from '@mfe/http';
-import { Notification } from '@mfe/notification-ui';
+import { Notification } from './notification/notification';
 
 @Component({
   imports: [RouterModule, Loading, Notification, RouterOutlet],

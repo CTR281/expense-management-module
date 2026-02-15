@@ -3,7 +3,7 @@ import { NotificationService } from '@mfe/notification';
 import { IconCloseComponent } from '@mfe/icons';
 
 @Component({
-  selector: 'lib-notification',
+  selector: 'mfe-notification',
   imports: [IconCloseComponent],
   templateUrl: './notification.html',
   styleUrl: './notification.css',
