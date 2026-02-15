@@ -1,10 +1,8 @@
 import { Component, inject, OnDestroy, OnInit, signal } from "@angular/core";
-import { AuthService } from "../../../core/auth/auth.service";
+import { AuthService } from "@mfe/auth";
 import { RouterLink, RouterLinkActive } from "@angular/router";
-import { IconBurgerMenu } from "../../../shared/ui/icons/icon-burger-menu";
-import { IconExpenses } from "../../../shared/ui/icons/icon-expenses";
-import { IconLogout } from "../../../shared/ui/icons/icon-logout";
 import { PageTitleService } from "../page-title.service";
+import { IconBurgerMenu, IconExpenses, IconLogout } from '@mfe/icons';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
