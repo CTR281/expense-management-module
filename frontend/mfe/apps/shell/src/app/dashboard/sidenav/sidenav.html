@@ -5,7 +5,7 @@
             (click)="toggle()"
             aria-label="Toggle navigation"
     >
-        <app-icon-burger-menu></app-icon-burger-menu>
+        <lib-icon-burger-menu></lib-icon-burger-menu>
     </button>
     <!-- TITLE -->
     @if(!isCollapsed()) {
@@ -26,7 +26,7 @@
             class="icon-button flex items-center gap-3 text-sm font-medium text-gray-700"
             [class.justify-center]="isCollapsed()"
     >
-        <app-icon-expenses></app-icon-expenses>
+        <lib-icon-expenses></lib-icon-expenses>
         @if (!isCollapsed()) {
             <span animate.enter="enter-animation">Expenses</span>
         }
@@ -50,7 +50,7 @@
 } @else {
     <div class="mt-auto" animate.enter="enter-animation">
         <button type="button" class="icon-button" (click)="authService.logout()">
-            <app-icon-logout></app-icon-logout>
+            <lib-icon-logout></lib-icon-logout>
         </button>
     </div>
 }

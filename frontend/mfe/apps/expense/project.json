@@ -4,7 +4,7 @@
   "projectType": "application",
   "prefix": "mfe",
   "sourceRoot": "apps/expense/src",
-  "tags": [],
+  "tags": ["role:remote","scope:expense"],
   "targets": {
     "build": {
       "executor": "@nx/angular:webpack-browser",

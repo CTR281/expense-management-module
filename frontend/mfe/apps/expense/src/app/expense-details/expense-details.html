@@ -2,7 +2,7 @@
 <div class="flex gap-12 justify-between">
     <div class="flex gap-6">
         <button class="icon-button" routerLink="/expenses" aria-label="Back">
-            <app-icon-back></app-icon-back>
+            <lib-icon-back></lib-icon-back>
         </button>
         <h1 class="page-title">Expense n°{{ expense.id }}</h1>
         @if(expense | isEditable) {
@@ -14,7 +14,7 @@
             </button>
         }
     </div>
-    <app-status-badge [isSubmitted]="expense.isSubmitted"></app-status-badge>
+    <mfe-status-badge [isSubmitted]="expense.isSubmitted"></mfe-status-badge>
 </div>
 
 <!-- DETAILS -->

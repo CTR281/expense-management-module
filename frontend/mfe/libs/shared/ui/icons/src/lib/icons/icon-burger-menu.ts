@@ -1,7 +1,7 @@
 ﻿import { Component } from "@angular/core";
 
 @Component({
-  selector: "app-icon-burger-menu",
+  selector: "lib-icon-burger-menu",
   template: `
     <svg
       width="25px"

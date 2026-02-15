@@ -13,7 +13,7 @@ import { Expense } from "../domain/models/expense.model";
 import { EditExpenseCommand } from "../domain/models/edit-expense-command.model";
 
 @Component({
-  selector: "app-expense-edit",
+  selector: "mfe-expense-edit",
   imports: [FormsModule, ReactiveFormsModule],
   templateUrl: "./expense-edit.html",
   styleUrl: "./expense-edit.css",

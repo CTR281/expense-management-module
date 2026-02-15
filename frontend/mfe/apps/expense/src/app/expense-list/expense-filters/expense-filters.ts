@@ -3,7 +3,7 @@ import { ExpenseService } from "../../expense-service";
 import { ExpenseFilters as Filters } from "../../domain/models/expense-view.model";
 
 @Component({
-  selector: "app-expense-filters",
+  selector: "mfe-expense-filters",
   templateUrl: "./expense-filters.html",
   styleUrl: "./expense-filters.css",
 })

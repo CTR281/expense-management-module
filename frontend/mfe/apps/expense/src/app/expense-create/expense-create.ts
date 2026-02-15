@@ -12,7 +12,7 @@ import { UniqueExpenseDateValidator } from "./unique-expense-date-validator.serv
 import { CreateExpenseCommand } from "../domain/models/create-expense-command.model";
 
 @Component({
-  selector: "app-expense-create",
+  selector: "mfe-expense-create",
   imports: [ReactiveFormsModule],
   templateUrl: "./expense-create.html",
   styleUrl: "./expense-create.css",

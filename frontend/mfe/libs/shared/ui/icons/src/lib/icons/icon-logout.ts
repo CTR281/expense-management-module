@@ -1,7 +1,7 @@
 ﻿import { Component } from "@angular/core";
 
 @Component({
-  selector: "app-icon-logout",
+  selector: "lib-icon-logout",
   template: `
     <svg
       fill="#000000"

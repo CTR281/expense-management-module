@@ -1,12 +1,12 @@
-﻿import { HttpParams } from "@angular/common/http";
+import { HttpParams } from '@angular/common/http';
 
 export function toHttpParams<T extends Record<string, any>>(
-  query?: T
+  query?: T,
 ): HttpParams {
   if (!query) return new HttpParams();
   return new HttpParams({
     fromObject: Object.fromEntries(
-      Object.entries(query).filter(([, value]) => value !== undefined)
+      Object.entries(query).filter(([, value]) => value !== undefined),
     ),
   });
 }

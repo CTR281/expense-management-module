@@ -4,7 +4,7 @@
   "projectType": "application",
   "prefix": "mfe",
   "sourceRoot": "apps/shell/src",
-  "tags": [],
+  "tags": ["role:host", "scope:host"],
   "targets": {
     "build": {
       "executor": "@nx/angular:webpack-browser",

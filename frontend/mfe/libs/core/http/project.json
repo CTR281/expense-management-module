@@ -4,7 +4,7 @@
   "sourceRoot": "libs/core/http/src",
   "prefix": "lib",
   "projectType": "library",
-  "tags": ["scope:host-only", "type:core", "layer:app"],
+  "tags": ["scope:host-only", "type:app"],
   "targets": {
     "test": {
       "executor": "@nx/vitest:test",

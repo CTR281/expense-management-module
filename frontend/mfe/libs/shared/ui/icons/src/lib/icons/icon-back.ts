@@ -1,7 +1,7 @@
 ﻿import { Component } from "@angular/core";
 
 @Component({
-  selector: "app-icon-back",
+  selector: "lib-icon-back",
   template: `<svg
     width="20px"
     height="20px"

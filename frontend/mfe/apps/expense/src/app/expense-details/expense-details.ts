@@ -8,7 +8,7 @@ import { IconBackComponent } from "@mfe/icons";
 import { IsEditablePipe } from "../expense-edit/is-editable.pipe";
 
 @Component({
-  selector: "app-expense-details",
+  selector: "mfe-expense-details",
   imports: [
     StatusBadge,
     DatePipe,

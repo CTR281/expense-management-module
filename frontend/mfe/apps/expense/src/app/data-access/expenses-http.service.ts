@@ -2,7 +2,7 @@ import { inject, Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { GetExpensesQueryDto } from "./models/get-expenses/get-expenses-query.dto";
-import { toHttpParams } from "@mfe/http";
+import { toHttpParams } from "@mfe/utils";
 import { GetExpensesResultDto } from "./models/get-expenses/get-expenses-result.dto";
 import { CreateExpenseBodyDto } from "./models/create-expense/create-expense-body.dto";
 import { CreateExpenseResultDto } from "./models/create-expense/create-expense-result.dto";

@@ -4,7 +4,7 @@
   "sourceRoot": "libs/shared/errors/src",
   "prefix": "lib",
   "projectType": "library",
-  "tags": ["scope:shared", "type:util", "layer:util"],
+  "tags": ["scope:shared", "type:utils"],
   "targets": {
     "test": {
       "executor": "@nx/vitest:test",

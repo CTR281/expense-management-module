@@ -3,7 +3,7 @@ import { Observable } from "rxjs";
 import { HttpClient } from "@angular/common/http";
 import { GetCategoriesQueryDto } from "./models/get-categories/get-categories-query.dto";
 import { GetCategoriesResultDto } from "./models/get-categories/get-categories-result.dto";
-import { toHttpParams } from "@mfe/http";
+import { toHttpParams } from "@mfe/utils";
 
 @Injectable()
 export class CategoriesHttpService {

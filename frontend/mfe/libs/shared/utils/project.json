@@ -4,7 +4,7 @@
   "sourceRoot": "libs/shared/utils/src",
   "prefix": "lib",
   "projectType": "library",
-  "tags": ["scope:shared", "type:utils", "layer:utils"],
+  "tags": ["scope:shared", "type:utils"],
   "targets": {
     "test": {
       "executor": "@nx/vitest:test",

@@ -2,7 +2,7 @@ import { Component, computed, inject } from "@angular/core";
 import { ExpenseService } from "../../expense-service";
 
 @Component({
-  selector: "app-expense-pagination",
+  selector: "mfe-expense-pagination",
   imports: [],
   templateUrl: "./expense-pagination.html",
   styleUrl: "./expense-pagination.css",

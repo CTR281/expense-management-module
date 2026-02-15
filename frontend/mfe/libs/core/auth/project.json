@@ -4,7 +4,7 @@
   "sourceRoot": "libs/core/auth/src",
   "prefix": "lib",
   "projectType": "library",
-  "tags": ["scope:shared", "type:core", "layer:app"],
+  "tags": ["scope:shared", "type:app"],
   "targets": {
     "test": {
       "executor": "@nx/vitest:test",

@@ -9,7 +9,7 @@ import { Paginated } from "../domain/models/expense-view.model";
 import { Expense } from "../domain/models/expense.model";
 
 @Component({
-  selector: "app-expense-list",
+  selector: "mfe-expense-list",
   imports: [
     ExpenseCard,
     ExpenseFilters,

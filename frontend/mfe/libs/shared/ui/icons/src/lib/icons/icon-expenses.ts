@@ -1,7 +1,7 @@
 ﻿import { Component } from "@angular/core";
 
 @Component({
-  selector: "app-icon-expenses",
+  selector: "lib-icon-expenses",
   template: `
     <svg
       fill="#000000"
