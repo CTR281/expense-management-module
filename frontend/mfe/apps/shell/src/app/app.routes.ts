@@ -1,7 +1,7 @@
 import { Route } from '@angular/router';
 import { Dashboard } from './dashboard/dashboard.component';
 import { Home } from './dashboard/home/home';
-import { PageTitleService } from './dashboard/page-title.service';
+import { PageTitleService } from '../../../../libs/core/page-title/src/lib/page-title/page-title.service';
 
 export const appRoutes: Route[] = [
   {

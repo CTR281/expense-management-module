@@ -1,5 +1,5 @@
 import { Component, inject } from "@angular/core";
-import { PageTitleService } from '../page-title.service';
+import { PageTitleService } from '../../../../../../libs/core/page-title/src/lib/page-title/page-title.service';
 
 @Component({
   selector: "mfe-home",

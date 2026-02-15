@@ -3,7 +3,7 @@ import { RouterOutlet } from "@angular/router";
 import { Sidenav } from "./sidenav/sidenav";
 
 @Component({
-  selector: "app-dashboard",
+  selector: "mfe-dashboard",
   imports: [RouterOutlet, Sidenav],
   templateUrl: "./dashboard.component.html",
   styleUrl: "./dashboard.component.css",

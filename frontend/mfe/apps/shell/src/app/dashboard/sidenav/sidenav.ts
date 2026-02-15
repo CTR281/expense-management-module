@@ -1,7 +1,7 @@
 import { Component, inject, OnDestroy, OnInit, signal } from "@angular/core";
 import { AuthService } from "@mfe/auth";
 import { RouterLink, RouterLinkActive } from "@angular/router";
-import { PageTitleService } from "../page-title.service";
+import { PageTitleService } from '@mfe/page-title';
 import { IconBurgerMenu, IconExpenses, IconLogout } from '@mfe/icons';
 
 @Component({
