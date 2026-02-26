@@ -20,10 +20,10 @@ describe("App", () => {
     expect(app).toBeTruthy();
   });
 
-  it(`should have as title 'n2f'`, () => {
+  it(`should have as title 'Frontend'`, () => {
     const fixture = TestBed.createComponent(App);
     const app = fixture.componentInstance;
-    expect(app.title).toEqual("n2f");
+    expect(app.title).toEqual("Frontend");
   });
 
   it("should render title", fakeAsync(() => {
@@ -33,6 +33,8 @@ describe("App", () => {
     tick();
     fixture.detectChanges();
     const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector("h1")?.textContent).toContain("Welcome n2f");
+    expect(compiled.querySelector("h1")?.textContent).toContain(
+      "Welcome to Frontend"
+    );
   }));
 });

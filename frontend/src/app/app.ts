@@ -10,5 +10,5 @@ import { Loading } from "./core/http/loading";
   styleUrl: "./app.css",
 })
 export class App {
-  protected title = "N2F";
+  protected title = "Frontend";
 }

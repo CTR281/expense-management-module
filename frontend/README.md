@@ -6,11 +6,11 @@ NOTE: Update app.config to target a different backend (default: local server).
 
 ### Serve
 
-Run `npx nx run n2f:serve`
+Run `npx nx run frontend:serve`
 
 ### Test
 
-Run `npx nx run n2f:test`
+Run `npx nx run frontend:test`
 
 
 ## Features

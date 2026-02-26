@@ -1,5 +1,5 @@
 {
-  "name": "n2f",
+  "name": "frontend",
   "$schema": "node_modules/nx/schemas/project-schema.json",
   "includedScripts": [],
   "projectType": "application",
@@ -11,7 +11,7 @@
       "executor": "@angular/build:application",
       "outputs": ["{options.outputPath}"],
       "options": {
-        "outputPath": "dist/n2f",
+        "outputPath": "dist/frontend",
         "browser": "./src/main.ts",
         "polyfills": ["zone.js"],
         "tsConfig": "tsconfig.app.json",
@@ -52,10 +52,10 @@
       "executor": "@angular/build:dev-server",
       "configurations": {
         "production": {
-          "buildTarget": "n2f:build:production"
+          "buildTarget": "frontend:build:production"
         },
         "development": {
-          "buildTarget": "n2f:build:development"
+          "buildTarget": "frontend:build:development"
         }
       },
       "defaultConfiguration": "development",
@@ -66,7 +66,7 @@
     "extract-i18n": {
       "executor": "@angular/build:extract-i18n",
       "options": {
-        "buildTarget": "n2f:build"
+        "buildTarget": "frontend:build"
       }
     },
     "lint": {
@@ -79,15 +79,15 @@
       "executor": "@nx/vite:test",
       "outputs": ["{options.reportsDirectory}"],
       "options": {
-        "reportsDirectory": "coverage/n2f"
+        "reportsDirectory": "coverage/frontend"
       }
     },
     "serve-static": {
       "continuous": true,
       "executor": "@nx/web:file-server",
       "options": {
-        "buildTarget": "n2f:build",
-        "staticFilePath": "dist/n2f/browser",
+        "buildTarget": "frontend:build",
+        "staticFilePath": "dist/frontend/browser",
         "spa": true
       }
     }
