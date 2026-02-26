@@ -1,101 +1,63 @@
-# **🧪 Frontend Assignment – Expense Management Module**
+<img src="demo.gif" width="600" alt="Application demo preview" />
 
-## **🎯 Context**
+# Expense Management Module
 
-Your company is building a new **expense management module**.
+This project was built to demonstrate **senior-level Angular expertise**, along with solid foundational knowledge of .NET and backend fundamentals.
 
-The goal of this module is to help users **track, manage, and submit their professional expenses** in a simple and reliable way.
+It is based on a technical assignment whose primary focus was frontend architecture and design.
 
-You are responsible for designing and implementing the first usable version of this frontend application.
+The backend was initially provided as part of the assignment. I extended and adapted it to support the frontend features by implementing additional routes, adjusting server configuration, and introducing the necessary API changes.
 
-A backend is available to manage expenses and categories.
-
----
-
-## **🏢 Business needs**
-
-Users should be able to:
-
-- view their expenses
-- understand the status and details of an expense
-- create new expenses 
-  - With unicity check, only one per user and per day. The "unicity check" endpoint is missing, you'll have to add it.
-- submit an expense when it is ready
-- correct or delete existing expenses (submitted expenses are not editable/deletable)
-
-The application should feel:
-
-- responsive
-- reliable
-- consistent
-- and easy to extend
+📄 Full assignment details are available [here](./ASSIGNMENT.md).
 
 ---
 
-## **🧾 Expense model**
+## Frontend
 
-An expense represents something a user paid and wants to be reimbursed for.
+The frontend is a **Nx monorepo workspace** that features:
 
-Each expense has:
+- Angular 20
+- Tailwind CSS v4
+- Standalone APIs
+- Layered architecture (domain / data-access / feature separation)
 
-- a date
-- an owner
-- an amount and currency
-- a category (transport, meal, hotel, …)
+Key architectural goals:
 
-The backend also ensures that a user cannot have two expenses on the same date.
+- Clear and explicit data flow
+- Domain-driven separation (models vs DTOs)
+- Scalability considerations
 
----
-
-## **🔌 Available backend capabilities**
-
-The backend allows to:
-
-- list and filter expenses
-- retrieve a single expense
-- create, edit, delete, and submit expenses
-
-To do:
-- Add a new endpoint to check that an expense is unique per user and per day.
+For detailed explanations about structure and data flow, see the frontend [README](./frontend/README.md).
 
 ---
 
-## **🧩 Your mission**
+### Microfrontend Alternative
 
-Build a small frontend application that demonstrates how you would approach this problem.
+An alternative version of the frontend implemented as a **Microfrontend architecture** is also provided.
 
-We are interested in:
+This explores:
 
-- how you translate business needs into UI and flows
-- how you structure the application
-- how data moves through the app
-- how the app behaves when data is loading, missing, or failing
+- Remote/module boundaries
+- Architectural trade-offs and justification
+- Enforced architectural constraints via Nx tags and ESLint
 
-The UI can stay simple. The important part is clarity and coherence.
-
----
-
-## **⏱️ Constraints**
-
-- Timebox: ~2-3 hours
-- A minimal Angular workspace and a mocked backend are provided.
+See the dedicated documentation here:  
+📄 [Microfrontend Architecture README](./frontend/mfe/README.md)
 
 ---
 
-## **📦 What to deliver**
+## Backend
 
-- Your source code
-- A short README explaining:
-    - the main user flows you chose
-    - the key technical decisions you made
-    - what you would improve with more time
+The backend is a **.NET 10 solution** built with:
 
----
+- ASP.NET Core
+- Entity Framework Core
+- InMemory database (for demonstration purposes)
 
-## **🧠 What we will look at**
+Its purpose is to:
 
-- understanding of the business problem
-- ability to design meaningful user flows
-- code quality and structure
-- frontend engineering practices
-- clarity of reasoning
+- Provide a clean REST API
+- Demonstrate understanding of controllers, DI, EF Core, and repository patterns
+- Support the frontend architecture
+
+Full backend details are available in its [README](./backend/README.md).

@@ -32,21 +32,8 @@ app/
 ```
 
 This architecture allows for clean boundaries and makes it easy to extend, and possibly to transition to a MFE architecture.
-In fact as a MFE the app could have the following structure :
 
-```
-apps/
-  shell/                        # maps to "/dashboard" in the current architecture
-  mfe-login/
-  mfe-expense/
-packages/
-  core/
-  ui/
-  util/
-  user/
-```
-
-One advantage is that each app would only import packages they are authorized to as per their manifests.
+On that note, a rework of this app as a MFE can be found in [`/mfe`](./mfe/README.md).
 
 #### Services & stores
 
@@ -151,7 +138,7 @@ On logout, all session scoped data are flushed (Identity, Expense-list page stat
 
 ### Testing
 
-Even though TDD was the initial approach and produced overall ~30 relevant tests, it became clear fast that a full test coverage would not be possible within the allocated time frame;
+Core logic (services and guards) are partially covered (~30 tests total).
 
 ### Improvements
 

@@ -2,7 +2,19 @@
 <project version="4">
   <component name="NxAngularConfigService" workspaceLocation="file://$PROJECT_DIR$/frontend/nx.json">
     <projects>
+      <project name="auth" file="file://$PROJECT_DIR$/frontend/mfe/libs/core/auth/project.json" />
+      <project name="errors" file="file://$PROJECT_DIR$/frontend/mfe/libs/shared/errors/project.json" />
+      <project name="expense" file="file://$PROJECT_DIR$/frontend/mfe/apps/expense/project.json" />
+      <project name="http" file="file://$PROJECT_DIR$/frontend/mfe/libs/core/http/project.json" />
+      <project name="icons" file="file://$PROJECT_DIR$/frontend/mfe/libs/shared/ui/icons/project.json" />
+      <project name="login" file="file://$PROJECT_DIR$/frontend/mfe/apps/login/project.json" />
       <project name="n2f" file="file://$PROJECT_DIR$/frontend/project.json" />
+      <project name="notification" file="file://$PROJECT_DIR$/frontend/mfe/libs/core/notification/project.json" />
+      <project name="page-title" file="file://$PROJECT_DIR$/frontend/mfe/libs/core/page-title/project.json" />
+      <project name="shell" file="file://$PROJECT_DIR$/frontend/mfe/apps/shell/project.json" />
+      <project name="store" file="file://$PROJECT_DIR$/frontend/mfe/libs/core/store/project.json" />
+      <project name="user" file="file://$PROJECT_DIR$/frontend/mfe/libs/user/project.json" />
+      <project name="utils" file="file://$PROJECT_DIR$/frontend/mfe/libs/shared/utils/project.json" />
     </projects>
   </component>
 </project>
